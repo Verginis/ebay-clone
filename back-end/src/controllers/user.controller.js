@@ -1,16 +1,21 @@
-
-// const UserModel = require('../models/user.model');
-const { hashSync, genSaltSync, compareSync } = require("bcrypt");
-const { sign } = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const asyncHandler =  require('express-async-handler');
 const bodyParser = require('body-parser');
-const {getUsers, getUserById, createUser} = require('../service/user.service');
+const User = require('../models/user.model');
 
 class UserController {
+
+  hashPassword = async (req) => {
+    if (req.body.password) {
+        req.body.password = await bcrypt.hash(req.body.password, 8);
+    }
+  }
   
-  //get all users
+  // get users
   getAllUsers = asyncHandler( async(req,res, next) => {
-    let userList = await getUsers();
+    console.log('mpike')
+    let userList = await User.findAll();
     console.log(userList);
     if(!userList.length) {
       res.status(401);
@@ -21,7 +26,12 @@ class UserController {
   });
 
   getUserById = asyncHandler( async(req,res, next) => {
-    const user = await getUserById(req.params.id);
+    const user = await User.findOne({
+      where : {
+        id: req.params.id
+      }
+    });
+
     if(!user) {
       res.status(401);
       throw new Error("User not found");
@@ -32,23 +42,91 @@ class UserController {
   });
 
   // create new user
-  createNewUser = asyncHandler( async(req,res, next) => {
-    const {firstname,lastname,email,password,phoneNumber,country,afm} = req.body;
-    console.log(req.body)
-    req.body.password = hashSync(req.body.password, genSaltSync(10));
-    const user = await createUser(req.body);
-      if(!user) {
-        console.log(user);
-        return res.status(500).json({
-          success: 0,
-          message: "Database connection error"
-        });
+  createUser = asyncHandler( async(req,res,next) => {
+    const { firstname, lastname, email, password, phoneNumber, country, afm} = req.body
+    await this.hashPassword(req);
+    const emailExists = await User.findOne({
+      where : {
+        email: email
       }
+    });
+    if(emailExists) {
+      res.status(400);
+      throw new Error("Email already exists");
+    }
+
+    const passwordExists = await User.findOne({
+      where : {
+        password: password
+      }
+    });
+    if(passwordExists) {
+      res.status(400);
+      throw new Error("Password already exists");
+    }
+    const user = await User.create(req.body);
+
+    if(user) {
       console.log(user);
-      return res.status(201).json({
-        message: "User was created"
-      });
-  })
+      res.json({
+        message : "User created",
+        data: user
+      })
+        .status(200);
+    } else {
+      res.status(400);
+      throw new Error("Cannot create new User")
+    }
+    
+  });
+
+  userLogin = asyncHandler( async(req,res,next) => {
+    const { email, password } = req.body;
+    const user = await User.findOne({
+      where: {
+        email:email
+      }
+    });
+
+    if(!user) {
+      res.status(401);
+      throw new Error("Unable to login");
+    }
+
+    const isMatch = await bcrypt.compare(password,user.password);
+    if(!isMatch) {
+      res.status(401);
+      throw new Error("Incorrect password");
+    }
+
+    const token = jwt.sign({id : user.id.toString()}, process.env.JWT_SECRET, { expiresIn: '24h'});
+    res.status(200)
+        .json({
+            id: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            password: user.password,
+            phoneNumber: user.phoneNumber,
+            country: user.country,
+            afm: user.afm,
+            token: token,
+            createdAt: user.createdAt
+        });
+  });
+
+  deleteUser = asyncHandler( async(req,res,next) => {
+    const deletedUser = await User.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    if(!deletedUser) {
+      res.status(404);
+      throw new Error("User not found");
+    }
+    res.send('User has been deleted');
+  });
 };
 
 module.exports = new UserController;

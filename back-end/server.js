@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const { errorHandler, notFound } = require('./src/middleware/error.middleware'); 
+const { errorHandler, notFound } = require('./src/middleware/error.middleware');
+const db = require('./config/db.config'); 
 // import employee routes
 const userRoutes = require('./src/routes/user.route');
 dotenv.config();
@@ -13,8 +14,6 @@ app.use(express.urlencoded({
     extended: true
   }));
 
-//setup the server port
-const port = process.env.PORT || 5000;
 
 app.use('/api/v1/user', userRoutes);
 
@@ -26,7 +25,16 @@ app.get('/', (req, res) =>{
 app.use(notFound);
 app.use(errorHandler);
 
-
-app.listen(port, () =>{
+//setup the server port
+const port = process.env.PORT || 5000;
+app.listen(port, async () =>{
     console.log(`Server is linstening in port ${port}`);
+
+    try {
+        // await db.sync({force: true}); //This creates the table, dropping them first if they already existed
+        await db.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
 });
