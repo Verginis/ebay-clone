@@ -4,26 +4,30 @@ dotenv.config();
 
 module.exports = {
   auth: (req, res, next) => {
-    let token = req.get("authorization");
-    if (token) {
+    const bearerHeader = req.headers['authorization']
+
+    if (typeof bearerHeader !== 'undefined') {
       // Remove Bearer from string
-      token = token.slice(7);
+      const bearer = bearerHeader.split(' ');
+
+      const token = bearer[1];
+
+      // req.token = token;
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        
         if (err) {
-          return res.json({
-            success: 0,
-            message: "Invalid Token..."
-          });
+          res.sendStatus(403);
         } else {
-          req.decoded = decoded;
+          req.token = token;
+          res.status(200);
+
+          console.log(decoded);
+          
           next();
         }
       });
     } else {
-      return res.json({
-        success: 0,
-        message: "Access Denied! Unauthorized User"
-      });
+      res.sendStatus(403);
     }
   }
 };

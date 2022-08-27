@@ -127,6 +127,31 @@ class UserController {
     }
     res.send('User has been deleted');
   });
+
+  updateUser = asyncHandler( async(req,res,next) => {
+    await this.hashPassword(req);
+
+    const {confirm_password, ...restUpdate } = req.body;
+
+    console.log(req.params.id);
+    console.log(restUpdate);
+
+    const result = await User.update(restUpdate, { where: { id: req.params.id } } );
+
+    if(!result) {
+      res.status(404);
+      throw new Error("Something went wrong");
+    }
+    const updatedUser = await User.findOne( { where : {id: req.params.id} } );
+    if(!updatedUser) {
+      res.status(402);
+      throw new Error("User not found");
+    }
+
+    res.status(200).send(updatedUser);
+  });
+
+
 };
 
 module.exports = new UserController;

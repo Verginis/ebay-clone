@@ -5,6 +5,7 @@ const { errorHandler, notFound } = require('./src/middleware/error.middleware');
 const db = require('./config/db.config'); 
 // import employee routes
 const userRoutes = require('./src/routes/user.route');
+const cors = require("cors");
 dotenv.config();
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.urlencoded({
     extended: true
   }));
 
+// app.use(cors());
 
 app.use('/api/v1/user', userRoutes);
 
