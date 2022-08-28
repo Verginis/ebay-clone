@@ -2,7 +2,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const asyncHandler =  require('express-async-handler');
 const bodyParser = require('body-parser');
-const User = require('../models/user.model');
+// const User = require('../models/user.model');
+// var requireDir = require('require-dir');
+const db = require('../models');
+
+const User = db.user;
 
 class UserController {
 
@@ -45,6 +49,7 @@ class UserController {
   createUser = asyncHandler( async(req,res,next) => {
     const { firstname, lastname, email, password, phoneNumber, country, afm} = req.body
     await this.hashPassword(req);
+    console.log(typeof User)
     const emailExists = await User.findOne({
       where : {
         email: email

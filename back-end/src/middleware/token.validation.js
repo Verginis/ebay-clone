@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv');
-const User = require('../models/user.model');
+const db = require('../models');
+
+const User = db.user;
 dotenv.config();
 
 module.exports = {
@@ -17,20 +19,31 @@ module.exports = {
 
           // req.token = token;
           jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-            console.log(decoded)
+            // console.log(decoded)
             
             if (err) {
               res.sendStatus(403);
               throw new Error('Invalid token');
             } 
+
+              console.log(req.params.id);
+              console.log(decoded.id)
+             
               const authorizedUser = await User.findOne({where: { id : decoded.id }});
+              console.log(authorizedUser)
               if(!authorizedUser){
                 res.sendStatus(401);
                 throw new Error('Authentication failed');
               }      
+
+              const ownerAuthorized = req.params.id == authorizedUser.id;
+              console.log(!ownerAuthorized)
+              console.log(roles)
+              console.log(!roles.includes(authorizedUser.role))
               
               // if user is not the current user and if the user doesn't have the permissions needed
-              if((req.params.id !== authorizedUser.id) && roles.length && !roles.includes(authorizedUser.role)) {
+              if(!ownerAuthorized  && !roles.includes(authorizedUser.role)) {
+                console.log("Not authorized user");
                 res.sendStatus(401);
                 throw new Error('Unauthorized user');
               }
