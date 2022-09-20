@@ -15,12 +15,12 @@ app.use(express.urlencoded({
     extended: true
   }));
 
-// app.use(cors());
+app.use(cors());
 
 app.use('/api/v1/user', userRoutes);
 
 app.get('/', (req, res) =>{
-    res.send('Hello World hahaha');
+    res.send('Hello World yoho');
 });
 
 // error handler
@@ -33,7 +33,7 @@ app.listen(port, async () =>{
     console.log(`Server is linstening in port ${port}`);
 
     try {
-        // await db.sequelize.sync({force: true}); //This creates the table, dropping them first if they already existed
+        await db.sequelize.sync({force: true}); //This creates the table, dropping them first if they already existed
         await db.sequelize.authenticate();
         console.log('Connection has been established successfully.');
     } catch (error) {
