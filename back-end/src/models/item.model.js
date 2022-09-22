@@ -7,12 +7,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             primaryKey: true,
         },
-        seller_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-        },
         name: {
+            type: DataTypes.STRING,
+            allowNull:false
+        },
+        category: {
             type: DataTypes.STRING,
             allowNull:false
         },
@@ -44,17 +43,20 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DOUBLE,
             allowNull:true
         },
+        seller: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         country: {
             type: DataTypes.STRING,
             allowNull:false
         },
         started: {
-            type: DataTypes.DATE,
-            allowNull:false
+            type: DataTypes.DATE
+
         }, 
         ended: {
-            type: DataTypes.DATE,
-            allowNull:false
+            type: DataTypes.DATE
         }, 
         description: {
             type: DataTypes.STRING,

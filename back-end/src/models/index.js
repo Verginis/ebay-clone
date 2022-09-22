@@ -24,11 +24,12 @@ db.sequelize = sequelize;
 
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.item = require("./item.model.js")(sequelize, Sequelize);
+db.category = require('./category.model.js')(sequelize, Sequelize);
 
 db.item.belongsTo(db.user, {
-    foreignKey: "seller_id",
-    targetKey: "id"
+    foreignKey: "seller"
 });
 
 
 module.exports = db;
+
