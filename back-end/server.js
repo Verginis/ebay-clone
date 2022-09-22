@@ -3,8 +3,12 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const { errorHandler, notFound } = require('./src/middleware/error.middleware');
 const db = require('./src/models');// import employee routes
-const userRoutes = require('./src/routes/user.route');
+
 const cors = require("cors");
+
+// ROUTES
+const userRoutes = require('./src/routes/user.route');
+const itemRoutes = require('./src/routes/item.route');
 
 dotenv.config();
 
@@ -17,7 +21,8 @@ app.use(express.urlencoded({
 
 // app.use(cors());
 
-app.use('/api/v1/user', userRoutes);
+app.use('/api/v1', userRoutes);
+app.use('/api/v1/items', itemRoutes);
 
 app.get('/', (req, res) =>{
     res.send('Hello World hahaha');

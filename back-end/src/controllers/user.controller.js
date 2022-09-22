@@ -120,6 +120,27 @@ class UserController {
         });
   });
 
+  grantUserAccess = asyncHandler( async(req,res,next) => {
+    const userFound = await User.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+    if(!userFound) {
+      res.status(404).json({
+        message:"User not found"
+      });
+      throw new Error("User not found");
+    }
+
+    console.log(userFound);
+  });
+
+  denyUserAccess = asyncHandler( async(req,res,next) => {
+
+  });
+
+
   deleteUser = asyncHandler( async(req,res,next) => {
     const deletedUser = await User.destroy({
       where: {
@@ -160,4 +181,3 @@ class UserController {
 };
 
 module.exports = new UserController;
-``

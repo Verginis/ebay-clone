@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             allowNull: false,
             primaryKey: true,
+        },username:{
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull:false,
         },
         firstname: {
             type: DataTypes.STRING,
@@ -46,6 +50,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.ENUM("User", "Admin"),
             allowNull: false,
             defaultValue: "User"
+        }, 
+        access: {
+            type: DataTypes.ENUM("PENDING","GRANTED"),
+            allowNull: true,
+            defaultValue:"PENDING"
         }
     });
 
