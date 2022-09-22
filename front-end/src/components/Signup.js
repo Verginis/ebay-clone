@@ -11,7 +11,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 // eslint-disable-next-line
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const AFM_REGEX = /^[0-9]{3,10}$/;
-const REGISTER_URL = '/api/v1/user/register';
+const REGISTER_URL = '/api/v1/register';
 
 const Signup = () => {
     const userRef = useRef();
@@ -108,11 +108,11 @@ const Signup = () => {
             return;
         }
 
-        console.log(firstname, lastname, email, pwd , phoneNumber, country, afm)
+        console.log(user, firstname, lastname, email, pwd , phoneNumber, country, afm)
         try {
             console.log('yeaaah')
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ firstname, lastname, email, password: pwd , phoneNumber, country, afm }),
+                JSON.stringify({ username: user, firstname, lastname, email, password: pwd , phoneNumber, country, afm }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true

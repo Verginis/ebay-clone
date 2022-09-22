@@ -4,7 +4,7 @@ import AuthContext from "../context/AuthProvider";
 
 
 import axios from '../api/axios';
-const LOGIN_URL = '/api/v1/user/login';
+const LOGIN_URL = '/api/v1/login';
 
 const Signin = () => {
     const { setAuth } = useContext(AuthContext);
@@ -29,7 +29,7 @@ const Signin = () => {
 
         try {
             const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, pwd }),
+                JSON.stringify({ username: user, password: pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true

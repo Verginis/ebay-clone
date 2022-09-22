@@ -47,17 +47,17 @@ class UserController {
 
   // create new user
   createUser = asyncHandler( async(req,res,next) => {
-    const { firstname, lastname, email, password, phoneNumber, country, afm} = req.body
+    const { username,firstname, lastname, email, password, phoneNumber, country, afm} = req.body
     await this.hashPassword(req);
     console.log(typeof User)
-    const emailExists = await User.findOne({
+    const usernameExists = await User.findOne({
       where : {
-        email: email
+        username: username
       }
     });
-    if(emailExists) {
+    if(usernameExists) {
       res.status(400);
-      throw new Error("Email already exists");
+      throw new Error("Username already exists");
     }
 
     const passwordExists = await User.findOne({
@@ -86,10 +86,10 @@ class UserController {
   });
 
   userLogin = asyncHandler( async(req,res,next) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     const user = await User.findOne({
       where: {
-        email:email
+        username: username
       }
     });
 
@@ -108,6 +108,7 @@ class UserController {
     res.status(200)
         .json({
             id: user.id,
+            username: user.username,
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,

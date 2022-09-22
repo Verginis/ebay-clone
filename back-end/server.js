@@ -29,10 +29,6 @@ app.use(cors(corsOptions));
 app.use('/api/v1', userRoutes);
 app.use('/api/v1/items', itemRoutes);
 
-app.get('/', (req, res) =>{
-    res.send('Hello World yoho');
-});
-
 // error handler
 app.use(notFound);
 app.use(errorHandler);
