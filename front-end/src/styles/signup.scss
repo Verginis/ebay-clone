@@ -1,0 +1,32 @@
+@use "variables" as v;
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .instructions,.offscreen{
+        display: none;
+      }
+
+
+    .hide {
+        display: none;
+    }
+    
+    .valid {
+        
+        margin-left: 0.25rem;
+        path{
+          color: v.$green2;
+        }
+    }
+    
+    .invalid {
+        margin-left: 0.25rem;
+        path{
+          color: v.$red;
+        }
+    }
+}

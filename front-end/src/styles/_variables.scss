@@ -1,0 +1,46 @@
+$green1: #1a2e35;
+$green2: #385a64;
+$grey: #e1e1e1;
+$red: #ff3110;
+
+*{
+    color: $green1;
+}
+
+.anim-btn{
+    border: none;
+    background: $green2;
+    color: white;
+    font-size: 14/16*1rem;
+    border-radius: 10px;
+    padding: Min(14px, Max(12px, 14/1240*100vw)) Min(18px, Max(14px, 18/1240*100vw));
+    position: relative;
+    z-index: 2;
+    overflow-x: hidden;
+    transition: color 0.5s;
+
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0; 
+        right: 0;
+        width: 0;
+        height: 100%;
+        z-index: -1;
+        transition: all 0.5s;
+        background-color: $green1;
+    }
+  
+    &:hover{
+        // background: v.$blue2;
+        color: white;
+        
+        
+        &::after {
+            width: 100%;
+            left: 0;
+            right: auto;
+        }
+    }
+}

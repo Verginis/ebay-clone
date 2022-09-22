@@ -9,20 +9,14 @@ import Login from './routes/Login';
 
 function App() {
 
-  // useEffect(() => {
-  //   axios.get("http://localhost:5000/").then((response) => {
-  //     console.log(response.data);
-  //   });
-  // }, []);
-
   return (
-    <>
+   
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
       </Routes>
-    </>
+    
   );
 }
 
