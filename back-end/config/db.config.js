@@ -1,17 +1,60 @@
-const mysql = require('mysql');
+module.exports = {
+    HOST: "localhost",
+    USER: "root",
+    PASSWORD: "",
+    DB: "auction-website-clone",
+    dialect: "mysql",
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
+  };
 
-// create here mysql connection
+// const mysql = require('mysql');
 
-const dbConn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'node_mysql_crud_db'
-});
+// const {Sequelize, DataTypes} = require("sequelize");
+// const sequelize = new Sequelize(
+//     'user',
+//     'root',
+//     '',
+//     {
+//         host: 'localhost',
+//         dialect: 'mysql'
+//     }
+// );
 
-dbConn.connect(function(error){
-    if(error) throw error;
-    console.log('Database Connected Successfully!!!');
-});
 
-module.exports = dbConn;
+// sequelize.authenticate()
+// .then(() => {
+//     console.log('connected..')
+// })
+// .catch(err => {
+//     console.log('Error'+ err)
+// })
+
+// const db = {};
+// db.Sequelize = Sequelize;
+// db.sequelize = sequelize;
+
+// db.users = require('../src/models/user.model')(sequelize, DataTypes);
+// db.items = require('../src/models/item.model')(sequelize, DataTypes);
+
+// db.sequelize.sync({ force: false })
+// .then(() => {
+//     console.log('yes re-sync done!')
+// })
+
+// db.users.hasMany(db.items, {
+//     foreignKey: 'id',
+//     as: 'items'
+// })
+
+// db.items.belongsTo(db.users, {
+//     foreignKey:"seller_id",
+//     as: "users"
+// });
+
+
+// module.exports = db;

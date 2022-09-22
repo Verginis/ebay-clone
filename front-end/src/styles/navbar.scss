@@ -1,0 +1,32 @@
+@use "variables" as v;
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+
+    .logo{
+        color: v.$green1;
+
+        span{
+            color: v.$red;
+        }
+    }
+
+    .form-btns{
+        display: flex;
+        gap: 20px;
+        align-items: center;
+
+        
+
+        .logbtn{
+            border: none;
+            background: none;
+            font-size: 14/16*1rem;
+        }
+
+
+    }
+}
