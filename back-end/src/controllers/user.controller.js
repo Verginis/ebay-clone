@@ -126,19 +126,65 @@ class UserController {
       where: {
         id: req.params.id
       }
-    });
+    })
+
     if(!userFound) {
       res.status(404).json({
         message:"User not found"
-      });
+    });
+      throw new Error('User not found');
+    }
+
+    const result = await userFound.update({
+      access: 'GRANTED'
+    })
+
+    if(!result) {
+      res.status(404);
+      throw new Error("Something went wrong");
+    }
+
+    const updatedUser = await User.findOne( { where : {id: req.params.id} } );
+    if(!updatedUser) {
+      res.status(402);
       throw new Error("User not found");
     }
 
-    console.log(userFound);
+    console.log(updatedUser)
+    res.status(200).send(updatedUser);
   });
 
   denyUserAccess = asyncHandler( async(req,res,next) => {
+    const userFound = await User.findOne({
+      where: {
+        id: req.params.id
+      }
+    })
 
+    if(!userFound) {
+      res.status(404).json({
+        message:"User not found"
+    });
+      throw new Error('User not found');
+    }
+
+    const result = await userFound.update({
+      access: 'DENIED'
+    })
+
+    if(!result) {
+      res.status(404);
+      throw new Error("Something went wrong");
+    }
+
+    const updatedUser = await User.findOne( { where : {id: req.params.id} } );
+    if(!updatedUser) {
+      res.status(402);
+      throw new Error("User not found");
+    }
+
+    console.log(updatedUser)
+    res.status(200).send(updatedUser);
   });
 
 
