@@ -14,5 +14,7 @@ router.patch('users/id/:id',auth(),userController.updateUser);
 
 // grant user access
 router.patch('/admin/users/:id/accept',auth(role.Admin), userController.grantUserAccess);
+// deny user access
+router.patch('/admin/users/:id/decline',auth(role.Admin), userController.denyUserAccess);
 
 module.exports = router;
