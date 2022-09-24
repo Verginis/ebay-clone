@@ -11,7 +11,7 @@ class ItemController {
     storeItem = asyncHandler( async(req,res,next) => {
         const userFound = await User.findOne({
             where : {
-              id: req.body.seller
+              id: req.body.sellerId
             }
           });
       
@@ -44,7 +44,7 @@ class ItemController {
             location: req.body.location,
             latitude: req.body.latitude,
             longitude: req.body.longitude,
-            seller: req.body.seller,
+            seller: req.body.sellerId,
             country: req.body.country,
             description: req.body.description
             });

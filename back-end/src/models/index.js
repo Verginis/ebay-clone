@@ -23,13 +23,14 @@ db.sequelize = sequelize;
 db.sequelize = sequelize;
 
 db.user = require("./user.model.js")(sequelize, Sequelize);
+db.bid = require('./bid.model.js')(sequelize, Sequelize);
 db.item = require("./item.model.js")(sequelize, Sequelize);
 db.category = require('./category.model.js')(sequelize, Sequelize);
 
-db.item.belongsTo(db.user, {
-    foreignKey: "seller"
-});
+db.bid.belongsTo(db.item);
+db.bid.belongsTo(db.user, { as : 'bidder'});
 
+db.user.hasMany(db.item, { foreignKey: 'sellerId' });
 
 module.exports = db;
 

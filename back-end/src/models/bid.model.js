@@ -1,9 +1,6 @@
-const Bidder = require('./bidder.model.js');
-const User = require('./user.model.js');
-
 module.exports = (sequelize, DataTypes) => {
 
-    let Bid = sequelize.define("bid", {
+    let Bid = sequelize.define("bidds", {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -12,25 +9,16 @@ module.exports = (sequelize, DataTypes) => {
         },
         itemId: {
             type: DataTypes.INTEGER,
-            references: {
-                model: Item,
-                key: 'id'
-            }
+            allowNull: false
         },
         bidderId: {
             type: DataTypes.INTEGER,
-            references: {
-                model: User,
-                key:'id'
-            }
+            allowNull: false
         },
         amount: {
             type: DataTypes.FLOAT,
             allowNull:true
-        }, 
-        timestamps: true
-       
-
+        } 
     });
         
     return Bid;

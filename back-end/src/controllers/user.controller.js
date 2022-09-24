@@ -117,6 +117,7 @@ class UserController {
             country: user.country,
             afm: user.afm,
             token: token,
+            role: user.role,
             createdAt: user.createdAt
         });
   });
