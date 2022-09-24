@@ -1,13 +1,13 @@
-import { useRef, useState, useEffect, useContext } from 'react';
+import { useRef, useState, useEffect} from 'react';
 import {Link} from 'react-router-dom'
-import AuthContext from "../context/AuthProvider";
+import useAuth from '../hooks/useAuth';
 
 
 import axios from '../api/axios';
 const LOGIN_URL = '/api/v1/login';
 
 const Signin = () => {
-    const { setAuth } = useContext(AuthContext);
+    const { setAuth } = useAuth();
     const userRef = useRef();
     const errRef = useRef();
 
@@ -38,8 +38,9 @@ const Signin = () => {
             console.log(JSON.stringify(response?.data));
             //console.log(JSON.stringify(response));
             const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
+            const role = response?.data?.role;
+            setAuth({ user, pwd, role, accessToken });
+            console.log("Role is :", role);
             setUser('');
             setPwd('');
             setSuccess(true);
