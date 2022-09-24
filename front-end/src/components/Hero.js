@@ -6,7 +6,7 @@ import heroimg from '../assets/heroimg.jpg'
 
 const Hero = () => {
   return (
-    <main>
+    <main className='heromain'>
         <div>
             <h1>With myBay, if you can dream it, you can<br/>
                 <Typed strings={['sell it...', 'buy it...']} typeSpeed={100} backSpeed={120} loop/> </h1>
@@ -14,7 +14,7 @@ const Hero = () => {
             <p>At myBay, we create pathways to connect millions of sellers and buyers all around the world.
                 Our technology empowers our customers, providing everyone the opportunity to grow and thrive — no matter who they
                 are or where they are in the world.</p>
-                <Link to='/register'><button className='anim-btn'>Start Exploring Now</button></Link>
+                <Link to='/admin'><button className='anim-btn'>Start Exploring Now</button></Link>
         </div>
 
         <img src={heroimg} alt="hero"/>
