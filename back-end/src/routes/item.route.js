@@ -6,8 +6,7 @@ const itemController = require('../controllers/item.controller');
 
 
 router.post("/",itemController.storeItem);
-// router.post("/login",userController.userLogin);
-// router.delete('/id/:id',auth(role.Admin),userController.deleteUser);
-// router.patch('/id/:id',auth(),userController.updateUser);
+router.get("/:userId",itemController.getItems);
+router.post("/:itemId/bid",itemController.storeBid);
 
 module.exports = router;

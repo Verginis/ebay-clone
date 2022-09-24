@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         nof_bids: {
             type: DataTypes.FLOAT,
-            allowNull:false
+            allowNull:false,
+            default: 0
         },
         buy_price: {
             type: DataTypes.FLOAT,
@@ -61,7 +62,13 @@ module.exports = (sequelize, DataTypes) => {
         description: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        runningAuction: {
+            type: DataTypes.BOOLEAN,
+            default: false,
+            allowNull: true
         }
+        
     });
 
     return Item;
