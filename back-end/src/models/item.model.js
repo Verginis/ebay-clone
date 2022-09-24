@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull:false
         },
         category: {
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             allowNull:false
         },
         current_bid: {
@@ -54,7 +54,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         started: {
             type: DataTypes.DATE
-
         }, 
         ended: {
             type: DataTypes.DATE

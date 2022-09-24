@@ -23,21 +23,17 @@ class ItemController {
             throw new Error("User not found");
           }
 
-          const categoryFound = await Category.findOne({
-            where: {
-              name: req.body.category
-            }
-          });
-          if(!categoryFound) {
-            res.status(404).json({
-              message: "Category not found"
-            });
-            throw new Error("Category not found");
+          // add categories
+          let categories = [];
+          for(const cat in req.body.categories) {
+            console.log(cat);
+            categories.push(cat);
           }
 
-          const item = new Item({
+          console.log(categories)
+          const newItem = await Item.create({
             name: req.body.name,
-            category: req.body.category,
+            category: req.body.categories,
             current_bid: req.body.first_bid,
             first_bid: req.body.first_bid,
             nof_bids: req.body.nof_bids,
@@ -50,8 +46,6 @@ class ItemController {
             description: req.body.description,
             runningAuction: true
             });
-
-            const newItem = await Item.create(item);
 
             if(newItem) {
                 console.log(newItem);
