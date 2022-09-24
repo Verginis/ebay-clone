@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const { errorHandler, notFound } = require('./src/middleware/error.middleware');
 const db = require('./src/models');// import employee routes
 
+const User = db.user;
+
 const cors = require("cors");
 
 // ROUTES
@@ -39,8 +41,23 @@ app.listen(port, async () =>{
     console.log(`Server is linstening in port ${port}`);
 
     try {
-        await db.sequelize.sync({force: true}); //This creates the table, dropping them first if they already existed
+        // await db.sequelize.sync({force: true}); //This creates the table, dropping them first if they already existed
         await db.sequelize.authenticate();
+        const result = await User.create({
+            id: 1,
+            username: 'admin',
+            firstname: 'admin',
+            lastname: 'admin',
+            email: 'admin@admin.com',
+            password: '$2b$08$EFV6D.qHBxoVOEpxiFQGBuQFkWCyyZuGtQnXyeoZOOeUMaHdaurX.',
+            phoneNumber: 1234,
+            country: 'greece',
+            afm: 1234,
+            role: 'Admin'
+        })
+
+
+
         console.log('Connection has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
