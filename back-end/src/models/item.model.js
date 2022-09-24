@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull:false
         },
         category: {
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             allowNull:false
         },
         current_bid: {
@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         nof_bids: {
             type: DataTypes.FLOAT,
-            allowNull:false
+            allowNull:false,
+            default: 0
         },
         buy_price: {
             type: DataTypes.FLOAT,
@@ -53,7 +54,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         started: {
             type: DataTypes.DATE
-
         }, 
         ended: {
             type: DataTypes.DATE
@@ -61,7 +61,13 @@ module.exports = (sequelize, DataTypes) => {
         description: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        runningAuction: {
+            type: DataTypes.BOOLEAN,
+            default: false,
+            allowNull: true
         }
+        
     });
 
     return Item;

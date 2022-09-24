@@ -5,7 +5,7 @@ const role  = require('../utils/roles.utils');
 const userController = require('../controllers/user.controller');
 
 // get all employees
-router.get('/',auth(role.Admin),userController.getAllUsers); // admin 
+router.get('/users',auth(role.Admin),userController.getAllUsers); // admin 
 router.get("users/id/:id",auth(),userController.getUserById);
 router.post("/register",userController.createUser);
 router.post("/login",userController.userLogin);
