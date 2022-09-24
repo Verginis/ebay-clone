@@ -1,6 +1,7 @@
 const db = require('../models');
 const asyncHandler =  require('express-async-handler');
 const bodyParser = require('body-parser');
+const { item } = require('../models');
 
 const User = db.user;
 const Item = db.item;
@@ -156,6 +157,108 @@ class ItemController {
       });
       
     });
+
+    buyItem = asyncHandler( async(req, res, next) => {
+      if(typeof req.params.itemId == 'undefined') {
+        throw new Error('Error with itemId');
+      }
+
+      const itemFound = await Item.findOne({
+        where: {
+          id: req.params.itemId
+        }
+      });
+
+      if(!itemFound) {
+        res.status(400).json({
+          message: 'Invalid item id given'
+        });
+        throw new Error('Invalid item id');
+      }
+      console.log(itemFound);
+
+      const amount = itemFound.buy_price;
+      const bidder = req.body.bidderId;
+
+      if(!itemFound.runningAuction) {
+        throw new Error('Auction completed');
+      }
+
+      const newBid = await Bid.create({
+        itemId: req.params.itemId,
+        bidderId: req.body.bidderId,
+        amount: itemFound.amount
+      });
+      if(!newBid) {
+        res.status(500);
+        throw new Error('Error while creating Bid');
+      }
+
+      const json = JSON.stringify(new Date());
+      const parsed = JSON.parse(json); //2015-10-26T07:46:36.611Z
+      const date = new Date(parsed); // Back to date object
+      console.log(date);
+
+      const result = await Item.update({
+        current_bid: amount,
+        runningAuction: false,
+        nof_bids: itemFound.nof_bids + 1,
+        ended: date,
+      });
+
+
+      if(!result) {
+        res.status(404);
+        throw new Error("Ooops! Something went wrong");
+      }
+      
+    });
+
+    deleteItem = asyncHandler( async(req, res, next) => {
+      if(typeof req.params.itemId == 'undefined') {
+        throw new Error('Error with itemId');
+      }
+      const itemFound = await Item.findByPk({
+        where: {
+          id: req.params.itemId
+        }
+      });
+
+      if(!itemFound) {
+        res.status(400).json({
+          message: 'Invalid item id given'
+        });
+        throw new Error('Invalid item id');
+      }
+
+      if(!itemFound.runningAuction) {
+        res.status(417).json({
+          message: 'Auction not running'
+        });
+        throw new Error('Auction not running');
+      }
+
+      if(!itemFound.nof_bids > 0) {
+        res.status(417).json({
+          message: 'Item cannot be deleted'
+        });
+        throw new Error('Ooops! There are bids here!');
+      }
+
+      const deletedItem = await Item.destroy({
+        where: {
+          id: req.params.itemId
+        }
+      });
+      if(!deletedItem) {
+        res.status(500);
+        throw new Error("Item deletion failed");
+      }
+      res.status(204).json({
+        message: 'Item deleted successfully'
+      });
+
+    })
 };
 
 module.exports = new ItemController;

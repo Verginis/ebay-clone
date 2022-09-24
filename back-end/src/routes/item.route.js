@@ -8,5 +8,7 @@ const itemController = require('../controllers/item.controller');
 router.post("/",itemController.storeItem);
 router.get("/:userId",itemController.getItems);
 router.post("/:itemId/bid",itemController.storeBid);
+router.post("/:itemId/buy",itemController.buyItem);
+router.delete("/:itemId", itemController.deleteItem);
 
 module.exports = router;

@@ -32,7 +32,5 @@ db.bid.belongsTo(db.user, { as : 'bidder'});
 
 db.user.hasMany(db.item, { foreignKey: 'sellerId' });
 
-
-
 module.exports = db;
 

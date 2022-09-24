@@ -49,11 +49,12 @@ app.listen(port, async () =>{
             firstname: 'admin',
             lastname: 'admin',
             email: 'admin@admin.com',
-            password: '$2b$08$EFV6D.qHBxoVOEpxiFQGBuQFkWCyyZuGtQnXyeoZOOeUMaHdaurX.',
+            password: '$2b$08$u7.vTJ8t7eO.a7BDFEzNiOSc3aJsbKag1bCAwnMSEyxq/hIPB/qzO',
             phoneNumber: 1234,
             country: 'greece',
             afm: 1234,
-            role: 'Admin'
+            role: 'Admin',
+            access: 'GRANTED'
         })
 
 

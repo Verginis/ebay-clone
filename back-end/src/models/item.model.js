@@ -30,7 +30,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         buy_price: {
             type: DataTypes.FLOAT,
-            allowNull:true
+            allowNull:true,
+            get() {
+                return this.getDataValue('buy_price');
+            },
         },
         location: {
             type: DataTypes.STRING,
