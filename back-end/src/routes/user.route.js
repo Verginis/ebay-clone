@@ -13,8 +13,11 @@ router.delete('/id/:id',auth(role.Admin),userController.deleteUser);
 router.patch('users/id/:id',auth(),userController.updateUser);
 
 // grant user access
-router.patch('/admin/users/:id/accept',auth(role.Admin), userController.grantUserAccess);
+router.patch('/admin/users/:id/accept', userController.grantUserAccess);
 // deny user access
-router.patch('/admin/users/:id/decline',auth(role.Admin), userController.denyUserAccess);
+router.patch('/admin/users/:id/decline', userController.denyUserAccess);
+
+// download JSON data
+router.get("/admin/download/json",userController.downloadJson);
 
 module.exports = router;
