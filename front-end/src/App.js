@@ -9,6 +9,10 @@ import Home from './routes/Home';
 import Register from './routes/Register';
 import Login from './routes/Login';
 import Admin from './routes/Admin';
+import Products from './routes/Products';
+import Messages from './routes/Messages';
+import Auctions from './routes/Auctions';
+import Unauthorized from './routes/Unauthorized';
 
 function App() {
 
@@ -20,9 +24,16 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/products' element={<Products />} />
+        <Route path='/unauthorized' element={<Unauthorized />} />
 
         <Route element={<RequireAuth allowedRoles={['Admin']}/>}>
             <Route path='/admin' element={<Admin />} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={['User']}/>}>
+          <Route path='/messages' element={<Messages />} />
+          <Route path='/auctions' element={<Auctions />} />
         </Route>
 
       </Route>

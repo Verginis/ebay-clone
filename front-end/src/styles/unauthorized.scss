@@ -1,0 +1,46 @@
+@use "variables" as v;
+
+.unauth{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    img{
+        max-width: 600/1920*100vw;
+
+        @media (max-width: 991px){
+            max-width: 90%;
+            
+        }
+    }
+
+    .flexGrow{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        p{
+            text-align: center;
+            font-size: 16/16*1rem;
+        }
+        button{
+            color: v.$red;
+            font-size: 20/16*1rem;
+            font-weight: 600;
+            background: none;
+            border: none;
+      
+            &:hover{
+              color: v.$green2;
+            }
+        }
+
+          @media (max-width: 991px){
+            flex-direction: column;
+            padding: 0 20px;
+            
+        }
+
+    }
+}

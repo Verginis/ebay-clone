@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect} from 'react';
-import {Link} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth';
 
 
@@ -10,11 +10,11 @@ const Signin = () => {
     const { setAuth } = useAuth();
     const userRef = useRef();
     const errRef = useRef();
+    const navigate = useNavigate();
 
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         userRef.current.focus();
@@ -38,7 +38,7 @@ const Signin = () => {
                     withCredentials: true
                 }
             );
-            console.log(JSON.stringify(response?.data));
+            //console.log(JSON.stringify(response?.data));
             //console.log(JSON.stringify(response));
             const accessToken = response?.data?.token;
             const role = response?.data?.role;
@@ -47,7 +47,11 @@ const Signin = () => {
             console.log("Role is :", role);
             setUser('');
             setPwd('');
-            setSuccess(true);
+            if(role== 'Admin'){
+                navigate("/admin");
+            }else{
+                navigate("/products");
+            }
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -63,16 +67,7 @@ const Signin = () => {
     }
 
     return (
-        <>
-            {success ? (
-                <section>
-                    <h1>You are logged in!</h1>
-                    <br />
-                    <p>
-                        <Link to='/'>Go to Home</Link>
-                    </p>
-                </section>
-            ) : (
+
                 <section>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Sign In</h1>
@@ -96,17 +91,15 @@ const Signin = () => {
                             value={pwd}
                             required
                         />
-                        <button>Sign In</button>
+                        <button className='anim-btn'>Sign In</button>
                     </form>
                     <p>
-                        Need an Account?<br />
+                        Need an Account?
                         <span className="line">
                             <Link to='/register'>Sign Up</Link>
                         </span>
                     </p>
                 </section>
-            )}
-        </>
     )
 }
 

@@ -1,0 +1,30 @@
+@use "variables" as v;
+
+ul{
+    display: flex;
+    
+    li{
+        list-style: none;
+        width: 400px;
+
+        button{
+            background: none;
+            border: none;
+
+            .valid {
+        
+                margin-left: 0.25rem;
+                path{
+                  color: v.$green2;
+                }
+            }
+            
+            .invalid {
+                margin-left: 0.25rem;
+                path{
+                  color: v.$red;
+                }
+            }
+        }
+    }
+}

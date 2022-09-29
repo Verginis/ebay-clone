@@ -1,15 +1,14 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import Users from '../components/Users'
+import NewAuction from '../components/NewAuction'
 
-
-const Admin = () => {
+const Auctions = () => {
   return (
     <div>
         <Navbar />
-        <Users />
+        <NewAuction />
     </div>
   )
 }
 
-export default Admin
+export default Auctions

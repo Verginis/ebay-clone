@@ -1,15 +1,13 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import Users from '../components/Users'
 
-
-const Admin = () => {
+const Messages = () => {
   return (
     <div>
         <Navbar />
-        <Users />
+        <h1>Messages</h1>
     </div>
   )
 }
 
-export default Admin
+export default Messages

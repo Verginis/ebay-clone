@@ -9,27 +9,18 @@ import '../styles/signup.scss'
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,24}$/;
 const NAME_REGEX = /^[a-zA-Z ]{3,24}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 // eslint-disable-next-line
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const AFM_REGEX = /^[0-9]{4,10}$/;
-const REGISTER_URL = '/api/v1/register';
+const REGISTER_URL = '/api/v1/items';
 
-const Signup = () => {
+const NewAuction = () => {
     const userRef = useRef();
     const errRef = useRef();
 
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
-
-    const [pwd, setPwd] = useState('');
-    const [validPwd, setValidPwd] = useState(false);
-    const [pwdFocus, setPwdFocus] = useState(false);
-
-    const [matchPwd, setMatchPwd] = useState('');
-    const [validMatch, setValidMatch] = useState(false);
-    const [matchFocus, setMatchFocus] = useState(false);
 
     const [firstname, setFirstName] = useState('');
     const [validFirstName, setValidFirstName] = useState(false);
@@ -67,11 +58,6 @@ const Signup = () => {
     }, [user])
 
     useEffect(() => {
-        setValidPwd(PWD_REGEX.test(pwd));
-        setValidMatch(pwd === matchPwd);
-    }, [pwd, matchPwd])
-
-    useEffect(() => {
         setValidFirstName(NAME_REGEX.test(firstname));
     }, [firstname])
 
@@ -97,30 +83,46 @@ const Signup = () => {
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd, matchPwd, firstname, email, phoneNumber, country, afm])
+    }, [user, firstname, email, phoneNumber, country, afm])
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(user);
-        const v2 = PWD_REGEX.test(pwd);
-        if (!v1 || !v2) {
+       // const v2 = PWD_REGEX.test(pwd);
+        if (!v1) {
             setErrMsg("Invalid Entry");
             return;
         }
 
-        var role = 'User';
+
+        var name =  "item-7";
+        var categories =  ["BANANA", "APPLE", "apple 14"];
+        var current_bid =  1;
+        var first_bid  =  1;
+        var nof_bids = 0;
+        var buy_price  =  50;
+        var location  =  "home";
+        var latitude =  62.6;
+        var longitude =  64.5;
+        var sellerId =  3;
+        var country  =  "greece";
+        var description  =  "hi i am the best fruit";
+        var runningAuction = true;
+        console.log({ name, categories, current_bid, first_bid, nof_bids, buy_price, location, latitude, longitude, sellerId, country, description});
+       // var role = 'User';
         //console.log(user, firstname, lastname, email, pwd , phoneNumber, country, afm)
         try {
            // console.log('yeaaah')
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ username: user, firstname, lastname, email, password: pwd , phoneNumber, country, afm, role }),
+                JSON.stringify({ name, categories, first_bid, nof_bids, buy_price, location, latitude, longitude, sellerId, country, description,runningAuction}),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
             );
+            console.log("aaaaaaaaaa");
             console.log(response?.data);
             //console.log(response?.accessToken);
             //console.log(JSON.stringify(response))
@@ -128,8 +130,6 @@ const Signup = () => {
             //clear state and controlled inputs
             //need value attrib on inputs for this
             setUser('');
-            setPwd('');
-            setMatchPwd('');
             setFirstName('');
             setLastName('');
             setEmail('');
@@ -161,7 +161,7 @@ const Signup = () => {
         ) : (
             <section>
                 <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                <h1>Register</h1>
+                <h1>New Auction</h1>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="username">
                         Username:
@@ -186,53 +186,6 @@ const Signup = () => {
                         3 to 24 characters.<br />
                         Must begin with a letter.<br />
                         Letters, numbers, underscores, hyphens allowed.
-                    </p>
-
-                    <label htmlFor="password">
-                        Password:
-                        <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
-                        <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        autoComplete="off"
-                        onChange={(e) => setPwd(e.target.value)}
-                        value={pwd}
-                        required
-                        aria-invalid={validPwd ? "false" : "true"}
-                        aria-describedby="pwdnote"
-                        onFocus={() => setPwdFocus(true)}
-                        onBlur={() => setPwdFocus(false)}
-                    />
-                    <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
-                        <FontAwesomeIcon icon={faInfoCircle} />
-                        8 to 24 characters.<br />
-                        Must include uppercase and lowercase letters, a number and a special character.<br />
-                        Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
-                    </p>
-
-
-                    <label htmlFor="confirm_pwd">
-                        Confirm Password:
-                        <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
-                        <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
-                    </label>
-                    <input
-                        type="password"
-                        id="confirm_pwd"
-                        autoComplete="off"
-                        onChange={(e) => setMatchPwd(e.target.value)}
-                        value={matchPwd}
-                        required
-                        aria-invalid={validMatch ? "false" : "true"}
-                        aria-describedby="confirmnote"
-                        onFocus={() => setMatchFocus(true)}
-                        onBlur={() => setMatchFocus(false)}
-                    />
-                    <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
-                        <FontAwesomeIcon icon={faInfoCircle} />
-                        Must match the first password input field.
                     </p>
 
                     <label htmlFor="firstname">
@@ -371,7 +324,7 @@ const Signup = () => {
                         4 to 10 numbers.
                     </p>
 
-                    <button className='anim-btn' disabled={!validName || !validPwd || !validMatch || !validFirstName || !validLastName || !validEmail || !validPhoneNumber || !validCountry || !validafm ? true : false}>Sign Up</button>
+                    <button className='anim-btn' disabled={!validName  || !validFirstName || !validLastName || !validEmail || !validPhoneNumber || !validCountry || !validafm ? true : false}>Sign Up</button>
                 </form>
                 <p>
                     Already registered?
@@ -385,4 +338,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default NewAuction

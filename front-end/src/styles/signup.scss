@@ -1,14 +1,79 @@
 @use "variables" as v;
 
-form{
+section{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 25px;
+
+  h1{
+    font-size: 32px;
+  }
+
+  .com-img{
+      max-width: 600/1920*100vw;
+
+      @media (max-width: 991px){
+          max-width: 90%;
+          
+      }
+  
+  }
+  
+
+
+  form{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    width: 270px;
+    
+    input{
+      margin-bottom: 5px;
+      border: 1px solid lightgrey;
+      padding: 5px;
+      font-size: 1rem;
+      border-radius: 5px;
+      outline: none !important;
+      position: relative;
 
-    .instructions,.offscreen{
+      &:focus{
+        border: 1px solid v.$green2;
+      }
+    }
+
+    label{
+      margin-bottom: 3px;
+    }
+    
+
+    .offscreen{
         display: none;
       }
+
+      .instructions {
+        font-size: 0.75rem;
+        border-radius: 0.5rem;
+        background: v.$grey;
+        color: v.$green1;
+        padding: 0.25rem;
+        position: relative;
+        transition: all 1s;
+        animation: example 0.5s;
+        
+        
+       // bottom: -10px;
+    }
+
+    @keyframes example {
+      0%  {opacity: 0;}
+      100%  {opacity: 1;}
+    }
+    
+    .instructions > svg {
+        margin-right: 0.25rem;
+    }
 
 
     .hide {
@@ -29,4 +94,41 @@ form{
           color: v.$red;
         }
     }
+
+    .anim-btn{
+      box-shadow: 3px 5px 15px 5px rgb(0 0 0 / 25%);
+      margin: 10px 0;
+      //background: darken($color: v.$red, $amount: 10%);
+
+
+      &:disabled{
+       // background: darken($color: v.$grey, $amount: 50%);
+       cursor: not-allowed;
+
+        &:hover{
+          &::after{
+            content: none;
+          }
+        }
+
+      }
+    }
+
+    
+  }
+
+  .errmsg{
+    color: v.$red;
+  }
+
+  .line{
+    a{
+      color: v.$green2;
+      font-weight: 500;
+
+      &:hover{
+        color: v.$green1;
+      }
+    }
+  }
 }
