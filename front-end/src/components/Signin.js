@@ -40,10 +40,9 @@ const Signin = () => {
             );
             //console.log(JSON.stringify(response?.data));
             //console.log(JSON.stringify(response));
-            const accessToken = response?.data?.token;
+            const token = response?.data?.token;
             const role = response?.data?.role;
-            localStorage.setItem("accessToken",accessToken);
-            setAuth({ user, pwd, role, accessToken });
+            setAuth({ user, pwd, role, token, id });
             console.log("Role is :", role);
             setUser('');
             setPwd('');
