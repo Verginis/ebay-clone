@@ -28,7 +28,7 @@ class UserController {
       throw new Error("Users not found");
     }
 
-    res.status(200).json({userList});
+    res.status(200).json(userList);
   });
 
   getUserById = asyncHandler( async(req,res, next) => {
