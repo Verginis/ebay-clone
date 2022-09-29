@@ -1,15 +1,13 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import Users from '../components/Users'
 
-
-const Admin = () => {
+const Products = () => {
   return (
     <div>
         <Navbar />
-        <Users />
+        <h1>Products</h1>
     </div>
   )
 }
 
-export default Admin
+export default Products

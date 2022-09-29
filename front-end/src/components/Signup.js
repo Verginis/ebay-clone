@@ -2,15 +2,17 @@ import React from 'react'
 import { useRef, useState, useEffect } from 'react'
 import { faCheck , faTimes , faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import completed from '../assets/completed.jpg'
 import {Link} from 'react-router-dom'
 import axios from '../api/axios'
 import '../styles/signup.scss'
 
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const USER_REGEX = /^[A-z][A-z0-9-_]{3,24}$/;
+const NAME_REGEX = /^[a-zA-Z ]{3,24}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 // eslint-disable-next-line
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const AFM_REGEX = /^[0-9]{3,10}$/;
+const AFM_REGEX = /^[0-9]{4,10}$/;
 const REGISTER_URL = '/api/v1/register';
 
 const Signup = () => {
@@ -70,11 +72,11 @@ const Signup = () => {
     }, [pwd, matchPwd])
 
     useEffect(() => {
-        setValidFirstName(USER_REGEX.test(firstname));
+        setValidFirstName(NAME_REGEX.test(firstname));
     }, [firstname])
 
     useEffect(() => {
-        setValidLastName(USER_REGEX.test(lastname));
+        setValidLastName(NAME_REGEX.test(lastname));
     }, [lastname])
 
     useEffect(() => {
@@ -86,7 +88,7 @@ const Signup = () => {
     }, [phoneNumber])
     
     useEffect(() => {
-        setValidCountry(USER_REGEX.test(country));
+        setValidCountry(NAME_REGEX.test(country));
     }, [country])
 
     useEffect(() => {
@@ -108,25 +110,32 @@ const Signup = () => {
             return;
         }
 
-        console.log(user, firstname, lastname, email, pwd , phoneNumber, country, afm)
+        var role = 'User';
+        //console.log(user, firstname, lastname, email, pwd , phoneNumber, country, afm)
         try {
-            console.log('yeaaah')
+           // console.log('yeaaah')
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ username: user, firstname, lastname, email, password: pwd , phoneNumber, country, afm }),
+                JSON.stringify({ username: user, firstname, lastname, email, password: pwd , phoneNumber, country, afm, role }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
             );
             console.log(response?.data);
-            console.log(response?.accessToken);
-            console.log(JSON.stringify(response))
+            //console.log(response?.accessToken);
+            //console.log(JSON.stringify(response))
             setSuccess(true);
             //clear state and controlled inputs
             //need value attrib on inputs for this
             setUser('');
             setPwd('');
             setMatchPwd('');
+            setFirstName('');
+            setLastName('');
+            setEmail('');
+            setPhoneNumber('');
+            setCountry('');
+            setafm('');
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -144,6 +153,7 @@ const Signup = () => {
         {success ? (
             <section>
                 <h1>Success!</h1>
+                <img src={completed} alt="completed" className='com-img'/>
                 <p>
                     <Link to='/login'>Sign In</Link>
                 </p>
@@ -173,7 +183,7 @@ const Signup = () => {
                     />
                     <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        4 to 24 characters.<br />
+                        3 to 24 characters.<br />
                         Must begin with a letter.<br />
                         Letters, numbers, underscores, hyphens allowed.
                     </p>
@@ -244,9 +254,8 @@ const Signup = () => {
                     />
                     <p id="firstnote" className={firstnameFocus && firstname && !validFirstName ? "instructions" : "offscreen"}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        4 to 24 characters.<br />
-                        Must begin with a letter.<br />
-                        Letters, numbers, underscores, hyphens allowed.
+                        3 to 24 characters.<br />
+                        e.x. John
                     </p>
 
                     <label htmlFor="lastname">
@@ -268,9 +277,8 @@ const Signup = () => {
                     />
                     <p id="lastnote" className={lastnameFocus && lastname && !validLastName ? "instructions" : "offscreen"}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        4 to 24 characters.<br />
-                        Must begin with a letter.<br />
-                        Letters, numbers, underscores, hyphens allowed.
+                        3 to 24 characters.<br />
+                        e.x. Doe
                     </p>
 
 
@@ -293,13 +301,11 @@ const Signup = () => {
                     />
                     <p id="emailnote" className={emailFocus && email && !validEmail ? "instructions" : "offscreen"}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        4 to 24 characters.<br />
-                        Must begin with a letter.<br />
-                        Letters, numbers, underscores, hyphens allowed.
+                        e.x. jondoe@gmail.com
                     </p>
 
                     <label htmlFor="phoneNumber">
-                        PhoneNumber:
+                        Phone Number:
                         <FontAwesomeIcon icon={faCheck} className={validPhoneNumber ? "valid" : "hide"} />
                         <FontAwesomeIcon icon={faTimes} className={validPhoneNumber || !phoneNumber ? "hide" : "invalid"} />
                     </label>
@@ -317,13 +323,11 @@ const Signup = () => {
                     />
                     <p id="phoneNumbernote" className={phoneNumberFocus && phoneNumber && !validPhoneNumber ? "instructions" : "offscreen"}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        4 to 24 characters.<br />
-                        Must begin with a letter.<br />
-                        Letters, numbers, underscores, hyphens allowed.
+                        4 to 10 numbers.
                     </p>
 
                     <label htmlFor="country">
-                        country:
+                        Country:
                         <FontAwesomeIcon icon={faCheck} className={validCountry ? "valid" : "hide"} />
                         <FontAwesomeIcon icon={faTimes} className={validCountry || !country ? "hide" : "invalid"} />
                     </label>
@@ -341,13 +345,12 @@ const Signup = () => {
                     />
                     <p id="countrynote" className={countryFocus && country && !validCountry ? "instructions" : "offscreen"}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        4 to 24 characters.<br />
-                        Must begin with a letter.<br />
-                        Letters, numbers, underscores, hyphens allowed.
+                        put the name of the country.<br />
+                        e.x. Greece
                     </p>
 
                     <label htmlFor="afm">
-                        afm:
+                        AFM:
                         <FontAwesomeIcon icon={faCheck} className={validafm ? "valid" : "hide"} />
                         <FontAwesomeIcon icon={faTimes} className={validafm || !afm ? "hide" : "invalid"} />
                     </label>
@@ -365,17 +368,15 @@ const Signup = () => {
                     />
                     <p id="afmnote" className={afmFocus && afm && !validafm ? "instructions" : "offscreen"}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        4 to 24 characters.<br />
-                        Must begin with a letter.<br />
-                        Letters, numbers, underscores, hyphens allowed.
+                        4 to 10 numbers.
                     </p>
 
-                    <button disabled={!validName || !validPwd || !validMatch || !validFirstName ? true : false}>Sign Up</button>
+                    <button className='anim-btn' disabled={!validName || !validPwd || !validMatch || !validFirstName || !validLastName || !validEmail || !validPhoneNumber || !validCountry || !validafm ? true : false}>Sign Up</button>
                 </form>
                 <p>
-                    Already registered?<br />
+                    Already registered?
                     <span className="line">
-                        <Link to='/login'>Sign In</Link>
+                        <Link to='/login'> Sign In</Link>
                     </span>
                 </p>
             </section>

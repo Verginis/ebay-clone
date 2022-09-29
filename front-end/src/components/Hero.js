@@ -14,7 +14,7 @@ const Hero = () => {
             <p>At myBay, we create pathways to connect millions of sellers and buyers all around the world.
                 Our technology empowers our customers, providing everyone the opportunity to grow and thrive — no matter who they
                 are or where they are in the world.</p>
-                <Link to='/admin'><button className='anim-btn'>Start Exploring Now</button></Link>
+                <Link to='/products'><button className='anim-btn'>Start Exploring Now</button></Link>
         </div>
 
         <img src={heroimg} alt="hero"/>
