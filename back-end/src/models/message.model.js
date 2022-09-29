@@ -1,33 +1,30 @@
 module.exports = (sequelize, DataTypes) => {
 
-    const Category = sequelize.define("messages", {
+    const Message = sequelize.define("messages", {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             allowNull: false,
             primaryKey: true,
         },
-        sender_id: {
+        senderId: {
             type: DataTypes.INTEGER,
             allowNull:false
         },
-        reciever_id: {
+        recieverId: {
             type: DataTypes.INTEGER,
-            allowNull:false
-        },
-        sender: {
-            type: DataTypes.STRING,
-            allowNull:false
-        },
-        reciever: {
-            type: DataTypes.STRING,
             allowNull:false
         },
         text: {
             type: DataTypes.STRING,
             allowNull:false
+        },
+        seen: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false
         }
     });
 
-    return Category;
+    return Message;
 }

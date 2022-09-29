@@ -5,8 +5,10 @@ const bodyParser = require('body-parser');
 // const User = require('../models/user.model');
 // var requireDir = require('require-dir');
 const db = require('../models');
+const { QueryTypes } = require('sequelize');
 
 const User = db.user;
+const Item = db.item;
 
 class UserController {
 
@@ -123,69 +125,65 @@ class UserController {
   });
 
   grantUserAccess = asyncHandler( async(req,res,next) => {
-    const userFound = await User.findOne({
-      where: {
-        id: req.params.id
-      }
-    })
-
-    if(!userFound) {
-      res.status(404).json({
-        message:"User not found"
-    });
-      throw new Error('User not found');
+    if(req.params.id == undefined) {
+      res.status(500);
+      throw new Error("Something wrong with parameters")
     }
 
-    const result = await userFound.update({
-      access: 'GRANTED'
-    })
+    let user = await User.findOne({
+      where:{
+        id: req.params.id
+      }
+    });
 
-    if(!result) {
+    if(!user) {
       res.status(404);
       throw new Error("Something went wrong");
     }
 
-    const updatedUser = await User.findOne( { where : {id: req.params.id} } );
-    if(!updatedUser) {
-      res.status(402);
-      throw new Error("User not found");
-    }
+    user.set({
+      access: "GRANTED"
+    });
 
-    console.log(updatedUser)
-    res.status(200).send(updatedUser);
+    user = await user.save();
+    if(!user) {
+      res.status(404);
+      throw new Error("Something went wrong");
+    }
+    console.log(user);
+
+    res.status(200).send(user);
   });
 
   denyUserAccess = asyncHandler( async(req,res,next) => {
-    const userFound = await User.findOne({
-      where: {
-        id: req.params.id
-      }
-    })
-
-    if(!userFound) {
-      res.status(404).json({
-        message:"User not found"
-    });
-      throw new Error('User not found');
+    if(req.params.id == undefined) {
+      res.status(500);
+      throw new Error("Something wrong with parameters")
     }
 
-    const result = await userFound.update({
-      access: 'DENIED'
-    })
+    let user = await User.findOne({
+      where:{
+        id: req.params.id
+      }
+    });
 
-    if(!result) {
+    if(!user) {
       res.status(404);
       throw new Error("Something went wrong");
     }
 
-    const updatedUser = await User.findOne( { where : {id: req.params.id} } );
-    if(!updatedUser) {
-      res.status(402);
-      throw new Error("User not found");
-    }
+    user.set({
+      access: "DENIED"
+    });
 
-    console.log(updatedUser)
-    res.status(200).send(updatedUser);
+    user = await user.save();
+    if(!user) {
+      res.status(404);
+      throw new Error("Something went wrong");
+    }
+    console.log(user);
+
+    res.status(200).send(user);
   });
 
 
@@ -197,9 +195,9 @@ class UserController {
     });
     if(!deletedUser) {
       res.status(404);
-      throw new Error("User not found");
+      throw new Error("User deletion failed");
     }
-    res.send('User has been deleted');
+    res.status(204).send('User has been deleted');
   });
 
   updateUser = asyncHandler( async(req,res,next) => {
@@ -223,6 +221,19 @@ class UserController {
     }
 
     res.status(200).send(updatedUser);
+  });
+
+  downloadJson = asyncHandler( async(req,res,next) => { 
+    
+    const itemList  = await db.sequelize.query('SELECT items.*, users.username FROM items,users WHERE items.sellerId = users.id', 
+    { type: db.sequelize.QueryTypes.SELECT }
+    );
+
+    // console.log(results);
+    // console.log(metadata)
+
+    res.status(200).json(itemList);
+
   });
 
 

@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: "User"
         }, 
         access: {
-            type: DataTypes.ENUM("PENDING","GRANTED"),
+            type: DataTypes.ENUM("PENDING","GRANTED","DENIED"),
             allowNull: true,
             defaultValue:"PENDING"
         }
