@@ -142,7 +142,7 @@ class UserController {
     }
 
     user.set({
-      access: "GRANTED"
+      access: "D"
     });
 
     user = await user.save();
@@ -173,7 +173,7 @@ class UserController {
     }
 
     user.set({
-      access: "DENIED"
+      access: "GRANTED"
     });
 
     user = await user.save();

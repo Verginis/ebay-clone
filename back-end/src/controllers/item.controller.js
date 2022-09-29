@@ -86,9 +86,7 @@ class ItemController {
 
       console.log(userItems);
 
-      res.status(200).json({
-        data: userItems
-      })
+      res.status(200).json(userItems);
     });
 
     storeBid = asyncHandler( async(req, res, next) => {

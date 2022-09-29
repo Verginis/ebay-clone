@@ -42,6 +42,7 @@ const Signin = () => {
             //console.log(JSON.stringify(response));
             const token = response?.data?.token;
             const role = response?.data?.role;
+            const id = response?.data?.id;
             setAuth({ user, pwd, role, token, id });
             console.log("Role is :", role);
             setUser('');

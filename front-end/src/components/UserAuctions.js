@@ -21,14 +21,15 @@ const UserAuctions = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
+    console.log(auth?.id)
 
     const getUsers = async () => {
         try {
-            const response = await axios.get('/api/v1/items/'+ auth?.id, {
+            const response = await axios.get('/api/v1/items/'+auth?.id, {
               headers: { 'Authorization': `bearer ${auth?.token}` }
             });
-            console.log(JSON.stringify(response?.data));
-            isMounted && setUsers(response.data);
+            console.log(response?.data);
+            setUsers(response?.data);
         } catch (err) {
             console.error(err);
         }
@@ -47,19 +48,11 @@ const UserAuctions = () => {
         <h2>User List</h2>
         {users?.length
                 ? (
-                    <div>
-                      
-                       {users.map(({name,country}) => {
-                            return (
-                            <ul>
-                                <li>{name}</li>
-                                <li>{country}</li>
-                            </ul>
-                            );
-                        })}
-                    </div>
+                    <ul>
+                        {users.map((user, i) => <li key={i}>{user?.name}</li>)}
+                    </ul>
                 ) : <p>No users to display</p>
-            }
+        }
     </div>
   )
 }
