@@ -31,14 +31,18 @@ const Signin = () => {
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ username: user, password: pwd }),
                 {
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json',
+                      },
                     withCredentials: true
                 }
             );
             console.log(JSON.stringify(response?.data));
             //console.log(JSON.stringify(response));
-            const accessToken = response?.data?.accessToken;
+            const accessToken = response?.data?.token;
             const role = response?.data?.role;
+            localStorage.setItem("accessToken",accessToken);
             setAuth({ user, pwd, role, accessToken });
             console.log("Role is :", role);
             setUser('');

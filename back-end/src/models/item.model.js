@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         runningAuction: {
             type: DataTypes.BOOLEAN,
-            default: false,
+            default: true,
             allowNull: true
         }
         
