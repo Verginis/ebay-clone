@@ -13,6 +13,8 @@ import Products from './routes/Products';
 import Messages from './routes/Messages';
 import Auctions from './routes/Auctions';
 import Unauthorized from './routes/Unauthorized';
+import SendMessage from './routes/SendMessage';
+import SentMessages from './routes/SentMessages';
 
 function App() {
 
@@ -33,6 +35,8 @@ function App() {
 
         <Route element={<RequireAuth allowedRoles={['User']}/>}>
           <Route path='/messages' element={<Messages />} />
+          <Route path='/messages/sent' element={<SentMessages/>} />
+          <Route path='/messages/sendmessage' element={<SendMessage/>} />
           <Route path='/auctions' element={<Auctions />} />
         </Route>
 

@@ -132,3 +132,43 @@ section{
     }
   }
 }
+
+
+
+.messageform{
+  width: 600px;
+  max-width: 90%;
+
+  #message{
+    width: 100%;
+    height: 350/1080*100vh;
+    margin-bottom: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid lightgrey;
+    resize: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    outline: none !important;
+    position: relative;
+
+    &:focus{
+      border: 1px solid v.$green2;
+    }
+  }
+}
+
+.success-par{
+  text-align: center;
+  font-size: 16/16*1rem;
+
+  a{
+    color: v.$red;
+    font-size: 20/16*1rem;
+    font-weight: 600;
+
+    &:hover{
+      color: v.$green2;
+    }
+  }
+}

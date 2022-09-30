@@ -1,0 +1,80 @@
+@use "variables" as v;
+
+
+.messages-btns{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    .sent-btns{
+        display: flex;
+        gap: 5px;
+
+        .anim-btn{
+            &.active{
+                background: v.$green1;
+                &::after {
+                    content: none;
+                }
+            }
+
+            &.not-active{
+                background: none;
+                border: 1px solid v.$green1;
+                color: v.$green1;
+
+                &::after {
+                    background: v.$green1;
+                }
+
+                &:hover{
+                    color: white;
+                }
+            }
+        }
+
+        
+    }
+
+    .new-mes{
+        background: darken($color: v.$red, $amount: 10%);
+    }
+}
+
+.message-list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    li{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        border: 1px solid v.$green1;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 10px 20px;
+        width: auto;
+        position: relative;
+
+        &.active{
+            display: none;
+        }
+
+        button{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+
+            .invalid{
+                path{
+                    color: #ff3110;
+                }
+            }
+
+            .svg-inline--fa{
+                height: 1.2em;
+            }
+        }
+
+    }
+}

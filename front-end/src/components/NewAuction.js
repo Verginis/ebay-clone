@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import completed from '../assets/completed.jpg'
 import {Link} from 'react-router-dom'
 import axios from '../api/axios'
-import '../styles/signup.scss'
+import '../styles/forms.scss'
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,24}$/;
 const NAME_REGEX = /^[a-zA-Z ]{3,24}$/;
@@ -106,7 +106,7 @@ const NewAuction = () => {
         var location  =  "home";
         var latitude =  62.6;
         var longitude =  64.5;
-        var sellerId =  3;
+        var sellerId =  2;
         var country  =  "greece";
         var description  =  "hi i am the best fruit";
         var runningAuction = true;

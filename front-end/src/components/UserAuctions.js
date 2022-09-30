@@ -12,12 +12,6 @@ const UserAuctions = () => {
   const [users, setUsers] = useState();
   const { auth } = useAuth();
 
-  // console.log(auth?.token);
-  // const response =  axios.get(LOGIN_URL, {
-  //   headers: { 'Authorization': `bearer ${auth?.token}` }
-  // });
-  // console.log(response.data);
-
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();

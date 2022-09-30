@@ -1,11 +1,12 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
+import React from 'react';
+import Navbar from '../components/Navbar';
+import Inbox from '../components/Inbox';
 
 const Messages = () => {
   return (
     <div>
         <Navbar />
-        <h1>Messages</h1>
+        <Inbox />        
     </div>
   )
 }
