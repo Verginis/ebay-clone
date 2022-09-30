@@ -12,7 +12,7 @@ const Bid = db.bid;
 class MessageController {
 
     sendMessage = asyncHandler( async(req, res, next) => {
-        if(typeof req.params.username == 'undefined' || req.params.text == 'undefined') {
+        if(typeof req.params.username == 'undefined' || req.body.text == 'undefined') {
             throw new Error('Error with parameters');
           }
           const reciever = await User.findOne({
@@ -53,12 +53,13 @@ class MessageController {
     })
 
     getRecievedMessages = asyncHandler( async(req, res, next) => {
-        if(req.body.recieverId == undefined) {
+        if(typeof req.params.recieverId == 'undefined') {
             res.status(400);
             throw new Error("Error with params");
         }
 
-        const recieverId = req.body.recieverId;
+        const recieverId = req.params.recieverId;
+        console.log(req.params.recieverId);
         let messages = [];
 
         const userFound = await User.findOne({
@@ -92,12 +93,12 @@ class MessageController {
     })
 
     getSentMessages = asyncHandler( async(req, res, next) => {
-      if(req.body.senderId == undefined) {
+      if(typeof req.params.senderId == 'undefined') {
           res.status(400);
           throw new Error("Error with params");
       }
 
-      const senderId = req.body.senderId;
+      const senderId = req.params.senderId;
       let messages = [];
 
       const userFound = await User.findOne({
@@ -131,7 +132,7 @@ class MessageController {
   })
 
   deleteMessage = asyncHandler( async(req, res, next) => {
-    if(req.params.id == undefined) {
+    if(typeof req.params.id == 'undefined') {
       res.status(500);
       throw new Error("Parameters missing");
     }

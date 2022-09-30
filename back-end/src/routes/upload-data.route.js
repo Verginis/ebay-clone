@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 fs = require('fs');
-var parser = require('xml2js');
-
+// let xmlParser = require('xml2json');
+// var parser = require('fast-xml-parser');
+const {XMLParser} = require('fast-xml-parser');
 
 
 // const { auth } = require('../middleware/token.validation');
@@ -10,13 +11,25 @@ var parser = require('xml2js');
 // const userController = require('../controllers/user.controller');
 
 
-router.post('/',(req, res, next) => {
-    fs.readFile( 'items-0.xml', function(err, data) {
-        var json = JSON.stringify(data)
-        console.log("to json ->", json);
+router.get('/',(req, res, next) => {
+    fs.readFile( '../items-1.xml', 'utf8', function(err, data) {
+        // convert XML to JSON
+        if (err) throw err;
 
-        req.setEncoding(json)
+        const parser = new XMLParser();
+        
+        var jsonData = parser.parse(data,null, true);
+
+        var x = jsonData['Items']['Item']
+
+        for (const obj of x) {
+            console.log(obj.Name);
+          }
+
+        res.status(200).json(jsonData);
+                   
      });
 }); 
 
 module.exports = router;
+
