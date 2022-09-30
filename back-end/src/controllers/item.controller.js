@@ -2,6 +2,7 @@ const db = require('../models');
 const asyncHandler =  require('express-async-handler');
 const bodyParser = require('body-parser');
 const { item } = require('../models');
+const { QueryTypes } = require('sequelize');
 
 const User = db.user;
 const Item = db.item;
@@ -60,6 +61,17 @@ class ItemController {
                 throw new Error("Cannot create new Item")
             }
     });
+
+    getAllItems = asyncHandler( async(req, res, next) => {
+      const itemList = await Item.findAll();
+
+      if(!itemList) {
+        res.status(500);
+        throw new Error("Item not found");
+      }
+
+      res.status(200).json(itemList);
+    })
 
     getItems = asyncHandler( async(req,res,next) => {
       if(typeof req.params.userId == 'undefined') {

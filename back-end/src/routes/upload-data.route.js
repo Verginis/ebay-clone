@@ -24,6 +24,7 @@ router.get('/',(req, res, next) => {
 
         for (const obj of x) {
             console.log(obj.Name);
+            console.log(obj.Category)
           }
 
         res.status(200).json(jsonData);
