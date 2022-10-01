@@ -20,4 +20,7 @@ router.patch('/admin/users/:id/decline', userController.denyUserAccess);
 // download JSON data
 router.get("/admin/download/json",userController.downloadJson);
 
+// download XMLdata
+router.get("/admin/download/xml",userController.downloadXML);
+
 module.exports = router;

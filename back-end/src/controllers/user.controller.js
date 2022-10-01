@@ -9,6 +9,9 @@ const { QueryTypes } = require('sequelize');
 
 const User = db.user;
 const Item = db.item;
+const js2xmlparser = require('js2xmlparser');
+var builder = require('xmlbuilder');
+// const {XMLParser} = require('fast-xml-parser');
 
 class UserController {
 
@@ -16,6 +19,55 @@ class UserController {
     if (req.body.password) {
         req.body.password = await bcrypt.hash(req.body.password, 8);
     }
+  }
+
+  jsonToXml = async(itemsArray, bidsArray) => {
+
+    let xmlObject;
+    console.log(itemsArray)
+    var root = builder.create('Items', { encoding: 'utf-8' })
+    for (let i = 0; i < itemsArray.length; i++) {
+
+      var item = root.ele('Item'); item.att('ItemID', itemsArray[i]['id']);
+      item.ele('Name', itemsArray[i]['name']).up();
+      const dataObj = JSON.parse(itemsArray[i]['category']);
+      dataObj.forEach( (data) => item.ele('Category', data).up())
+      
+      item.ele('Currently', itemsArray[i]['current_bid']).up()
+          .ele('First_Bid', itemsArray[i]['first_bid']).up()
+          .ele('Number_of_Bids', itemsArray[i]['nof_bids']).up()
+      if(itemsArray[i]['buy_price'] !== null) {
+        item.ele('Buy_Price', itemsArray[i]['buy_price']).up()
+      }
+      if(itemsArray[i]['nof_bids'] === 0) {
+        item.ele('Bids').up()
+      } else {
+        item.ele('Bids')
+        for(let j = 0; j < bidsArray.length; j++) {
+          item.ele('Bid')
+                .ele('Bidder', {'Rating' : 100 , 'UserID' : bidsArray[j]['username']})
+                  .ele('Location', 'USA').up()
+                  .ele('Country', 'Greece').up()
+                .up()
+                .ele('Time', bidsArray[j]['createdAt']).up()
+                .ele('Amount', bidsArray[j]['amount']).up()
+              .up()
+          }
+          item.up() 
+      }     
+      if( itemsArray[i]['latitude'] !== null && itemsArray[i]['longitude'] !== null ) {
+          item.ele('Location', {'Latitude' : itemsArray[i]['latitude'], 'Longitude': itemsArray[i]['longitude']}).up();
+      } else {
+        item.ele('Location', itemsArray[i]['location']).up();
+      }
+      item.ele('Country', itemsArray[i]['country']).up()
+          .ele('Started', itemsArray[i]['createdAt']).up()
+          .ele('Ends', itemsArray[i]['ended']).up()
+          .ele('Description', itemsArray[i]['description']).up()    
+      item.up();
+    }
+      // console.log(root.end({ pretty: true }));
+    return root.end({ pretty: true });
   }
   
   // get users
@@ -236,6 +288,26 @@ class UserController {
 
   });
 
+  downloadXML = asyncHandler( async(req,res,next) => { 
+    
+    const itemList  = await db.sequelize.query('SELECT items.*, users.username FROM items,users WHERE items.sellerId = users.id', 
+    { type: db.sequelize.QueryTypes.SELECT }
+    );
+
+    const bidList  = await db.sequelize.query('SELECT bidds.*, users.username, users.country FROM items,users, bidds WHERE bidds.itemId = items.id and bidds.bidderId = users.id', 
+    { type: db.sequelize.QueryTypes.SELECT }
+    );
+
+    if(!bidList) {
+      res.status(500);
+      throw new Error("Bid not found");
+    }
+
+    const xml = await this.jsonToXml(itemList, bidList);
+    console.log(xml);
+
+    res.status(200).send(xml);
+  });
 
 };
 
