@@ -1,0 +1,11 @@
+@use "variables" as v;
+
+.up-btn{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+    .new-mes{
+        background: darken($color: v.$red, $amount: 10%);
+    }
+}

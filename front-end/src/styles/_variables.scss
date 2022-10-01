@@ -7,6 +7,15 @@ $red: #ff3110;
     color: $green1;
 }
 
+li{
+    list-style: none;
+}
+
+button{
+    background: none;
+    border: none;
+}
+
 .anim-btn{
     border: none;
     background: $green2;

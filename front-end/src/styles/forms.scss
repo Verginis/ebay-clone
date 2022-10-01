@@ -172,3 +172,77 @@ section{
     }
   }
 }
+
+
+.new-auction{
+  width: 600px;
+  max-width: 90%;
+  .categories-container{
+    display: flex;
+    align-items: flex-start;
+    
+    
+    .categories-wrapper{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .remove-btn{
+      color: v.$red;
+      margin-top: 7px;
+      margin-left: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+
+    }
+
+    .add-btn{
+      color: v.$green2;
+      font-size: 1rem;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+  }
+
+
+  #description{
+    width: 100%;
+    height: 150/1080*100vh;
+    margin-bottom: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid lightgrey;
+    resize: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    outline: none !important;
+    position: relative;
+
+    &:focus{
+      border: 1px solid v.$green2;
+    }
+  }
+
+  .show-cordinates{
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    @media (max-width: 470px){
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    .wrapper-1{
+      width: 100%;
+
+      .long,.lat{
+        margin-bottom: 5px;
+        border: 1px solid lightgrey;
+        padding: 5px;
+        font-size: 1rem;
+        border-radius: 5px;
+      }
+    }
+  }
+}

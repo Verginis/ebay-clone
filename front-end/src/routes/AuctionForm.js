@@ -1,14 +1,14 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import Items from '../components/Items'
+import NewAuction from '../components/NewAuction'
 
-const Products = () => {
+const AuctionForm = () => {
   return (
     <div>
         <Navbar />
-        <Items />
+        <NewAuction />
     </div>
   )
 }
 
-export default Products
+export default AuctionForm

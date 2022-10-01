@@ -7,7 +7,7 @@ import '../styles/users.scss'
 
 
 const LOGIN_URL = '/api/v1/users';
-const ACCEPT_URL = '/api/v1/admin/users/:id/accept';
+
 
 const Users = () => {
     const [users, setUsers] = useState();
@@ -41,7 +41,7 @@ const Users = () => {
           isMounted = false;
           controller.abort();
       }
-  }, [])
+  }, [auth?.token])
 
 
 
@@ -81,7 +81,7 @@ const Users = () => {
         {users?.length
                 ? (
                     <div>
-                        <ul>
+                        <ul className="user-list">
                                 <li>Username:</li>
                                 <li>First Name:</li>
                                 <li>Last Name:</li>
@@ -91,13 +91,13 @@ const Users = () => {
                             </ul>
                        {users.map(({id, username, firstname,lastname, email, country, access}) => {
                             return (
-                            <ul key={id}>
+                            <ul key={id} className="user-list">
                                 <li>{username}</li>
                                 <li>{firstname}</li>
                                 <li>{lastname}</li>
                                 <li>{email}</li>
                                 <li>{country}</li>
-                                {access == 'GRANTED'
+                                {access === 'GRANTED'
                                   ?<li>Accepted</li>
                                   :<li>
                                       <button onClick={()=> giveAccess(id)} ><FontAwesomeIcon icon={faCheck} className='valid' /></button>

@@ -56,24 +56,24 @@ const Inbox = () => {
             <Link to='/messages/sendmessage' className='anim-btn new-mes'>New message</Link>
 
 
-            </div>
-            <div>
-                {messages?.length
-                        ? (
-                            <ul className="message-list">
-                                
-                                {messages.map(({i, id, senderId, text}) => {
-                                    return (
-                                    <li key={i} className={`list-group-item ${active == id && 'active'}`}>
-                                        <h3>From: {senderId}</h3>
-                                        <p>{text}</p>
-                                        <button onClick={ function(event){ deleteMessage(id); setActive(id);}}><FontAwesomeIcon icon={faTimes} className='invalid' /></button>
-                                    </li>
-                                    );
-                                })}
-                            </ul>
-                        ) : <p>No messages to display</p>
-                }
+        </div>
+        <div>
+            {messages?.length
+                    ? (
+                        <ul className="message-list">
+                            
+                            {messages.map(({i, id, senderId, text}) => {
+                                return (
+                                <li key={i} className={`list-group-item ${active == id && 'active'}`}>
+                                    <h3>From: {senderId}</h3>
+                                    <p>{text}</p>
+                                    <button onClick={ function(event){ deleteMessage(id); setActive(id);}}><FontAwesomeIcon icon={faTimes} className='invalid' /></button>
+                                </li>
+                                );
+                            })}
+                        </ul>
+                    ) : <p>No messages to display</p>
+            }
         </div>
     </div>
   )
