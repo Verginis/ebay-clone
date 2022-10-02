@@ -281,6 +281,11 @@ class UserController {
     { type: db.sequelize.QueryTypes.SELECT }
     );
 
+    if(!itemList) {
+      res.status(500);
+      throw new Error("No items found");
+    } 
+
     // console.log(results);
     // console.log(metadata)
 
