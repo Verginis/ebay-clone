@@ -164,6 +164,7 @@ class UserController {
             afm: user.afm,
             token: token,
             role: user.role,
+            access: user.access,
             createdAt: user.createdAt
         });
   });
@@ -186,7 +187,7 @@ class UserController {
     }
 
     user.set({
-      access: "D"
+      access: "GRANTED"
     });
 
     user = await user.save();
@@ -217,7 +218,7 @@ class UserController {
     }
 
     user.set({
-      access: "GRANTED"
+      access: "DENY"
     });
 
     user = await user.save();

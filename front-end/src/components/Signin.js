@@ -43,6 +43,8 @@ const Signin = () => {
             //console.log(JSON.stringify(response));
             const token = response?.data?.token;
             const role = response?.data?.role;
+            const access = response?.data?.access;
+            console.log("ACCESS",access);
             const id = response?.data?.id;
             setAuth({ user, pwd, role, token, id });
             console.log("Role is :", role);
@@ -51,6 +53,7 @@ const Signin = () => {
             if(role== 'Admin'){
                 navigate("/admin");
             }else{
+                
                 navigate("/products");
             }
         } catch (err) {

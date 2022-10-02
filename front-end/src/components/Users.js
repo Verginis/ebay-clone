@@ -68,9 +68,9 @@ const Users = () => {
 
   function denyAccess(id) {
     console.log(auth?.token);
-    // return axios.patch('/api/v1/admin/users/'+id+'/decline', {
-    //     headers: { 'Authorization': `bearer ${auth?.token}` }
-    //   });
+    return axios.patch('/api/v1/admin/users/'+id+'/decline', {
+        headers: { 'Authorization': `bearer ${auth?.token}` }
+      });
 
   }
 

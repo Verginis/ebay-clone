@@ -46,3 +46,39 @@
 
 
 }
+
+.search-cont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+
+    .anim-btn{
+        background: darken($color: v.$red, $amount: 10%);
+    }
+
+    input{
+        margin-bottom: 5px;
+        border: 1px solid lightgrey;
+        padding: 5px;
+        font-size: 1rem;
+        border-radius: 5px;
+        outline: none !important;
+        position: relative;
+  
+        &:focus{
+          border: 1px solid v.$green2;
+        }
+      }
+
+      select{
+        margin-bottom: 5px;
+        border: 1px solid lightgrey;
+        padding: 5px;
+        font-size: 1rem;
+        border-radius: 5px;
+        outline: none !important;
+        position: relative;
+      }
+}

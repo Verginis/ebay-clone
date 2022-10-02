@@ -120,7 +120,7 @@ const Items = () => {
 
       return (
         <>        
-                  <div>
+                  <div className='search-cont'>
                     <select onChange={(e) => setoptions(e.target.value)}>
                       <option value="category">Categories</option>
                       <option value="price">Max Price</option>
@@ -139,7 +139,7 @@ const Items = () => {
                             />
                         <button className='anim-btn' onClick={handleSearch} >Search</button>
                   </div>
-                 <div className='products-section'>
+                <div className='products-section'>
                 {displayPosts}
                 <ReactPaginate
                   previousLabel={"Previous"}
