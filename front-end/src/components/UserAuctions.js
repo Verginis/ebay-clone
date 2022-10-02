@@ -44,9 +44,40 @@ const UserAuctions = () => {
         </div>
         {users?.length
                 ? (
-                    <ul>
-                        {users.map((user, i) => <li key={i}>{user?.name}</li>)}
-                    </ul>
+                  <div className="auct-list">
+                    {users.map(({name, i, description,category, country, location, buy_price, current_bid}) => {
+                      return(
+                        <div key={i} className='auction-details-container'>
+                          <h2>{name}</h2>
+
+                          <div className="categories-wrapper">
+                            <h4>Categories: </h4>
+                            <h5>{category[0]}</h5>
+                            <h5>{category[1]}</h5>
+                            <h5>{category[2]}</h5>
+                            <h5>{category[3]}</h5>
+                          </div>
+                          
+                          <p>Description: {description}</p>
+                          
+                          <div className="wrapper-2">
+                            <span>Country: {country}</span>
+                            <span>Location: {location}</span>
+                          </div>
+
+                          <div className="wrapper-2">
+                            <span>Buy Price: {buy_price}</span>
+                            <span>Current Bid: {current_bid}</span>
+                          </div>
+
+
+                          
+                          
+
+                        </div>
+                      );
+                      })}
+                </div>
                 ) : <p>No users to display</p>
         }
     </div>

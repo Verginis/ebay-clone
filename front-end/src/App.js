@@ -16,6 +16,7 @@ import Unauthorized from './routes/Unauthorized';
 import SendMessage from './routes/SendMessage';
 import SentMessages from './routes/SentMessages';
 import AuctionForm from './routes/AuctionForm';
+import Bid from './routes/Bid';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
           <Route path='/messages/sendmessage' element={<SendMessage/>} />
           <Route path='/auctions' element={<Auctions />} />
           <Route path='/auctions/form' element={<AuctionForm />} />
+          <Route path='/products/bid' element={<Bid />} />
 
         </Route>
 
