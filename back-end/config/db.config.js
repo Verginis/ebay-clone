@@ -1,8 +1,8 @@
 module.exports = {
     HOST: "localhost",
     USER: "root",
-    PASSWORD: "auction-website-clone",
-    DB: "user",
+    PASSWORD: "",
+    DB: "auction-website-clone",
     dialect: "mysql",
     pool: {
       max: 5,
