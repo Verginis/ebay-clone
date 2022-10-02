@@ -88,18 +88,19 @@ router.get('/',(req, res, next) => {
 
             console.log(user);
             console.log(created_seller);
-
-            if(user) {
-              console.log("User created " + user);
-              // res.json({
-              //   message : "User created",
-              //   data: user
-              // })
-              //   .status(200);
-            } else {
+            try {
+              if(user) {
+                console.log("User created " + user);
+                // res.json({
+                //   message : "User created",
+                //   data: user
+                // })
+                //   .status(200);
+              } 
+            } catch(err) {
               res.status(400);
-              throw new Error("Cannot create new User")
-            } 
+              throw new Error(err);
+            }
             // remove '$' if not null 
             if(buy_price !== null) {
               parseFloat(buy_price.replace(/\$/,""))
@@ -126,20 +127,14 @@ router.get('/',(req, res, next) => {
 
               if(newItem) {
                 console.log('Item created' + newItem);
-                // res.json({
-                //   message : "Item created",
-                //   data: newItem
-                // })
-                //   .status(200);
-              } else {
-                res.status(400);
-                throw new Error("Cannot create new Item")
-              }
+              } 
             } catch(err) {
               console.log(err);
+              res.status(400);
+              throw new Error(err)
             }
 
-          console.log(obj.Bids)
+            console.log(obj.Bids)
 
             if(typeof obj.Bids !== 'undefined') {
               if( typeof obj.Bids.Bid !== 'undefined' ) {
@@ -163,6 +158,46 @@ router.get('/',(req, res, next) => {
                     console.log('Time - ' + time + 'amount ' + amount);
                     console.log('trying to insert ' + bidder_username)
 
+                    try {
+                      let [bidder, created_bidder] = await User.upsert({
+                        username: bidder_username,
+                        firstname: bidder_username,
+                        lastname: bidder_username,
+                        email: bidder_username + '@gmail.com',
+                        password: bidder_pwd,
+                        phoneNumber: 2100000000,
+                        country: country,
+                        afm: 111111,
+                        access: 'GRANTED'
+                      })
+          
+                      if(bidder) {
+                        console.log(bidder);
+                      }
+                      console.log('Creating bid with item id: ' + itemId);
+
+                      let newBid = await Bid.create({
+                        itemId: itemId,
+                        bidderId: bidder.id,
+                        amount: parseFloat(amount.replace(/\$/,""))
+                      });
+                    }catch(err) {
+                      res.status(400);
+                      throw new Error(err)
+                    }
+                  }
+                } else {
+                  time = obj.Bids.Bid.Time;
+                  amount = obj.Bids.Bid.Amount;
+                  location = obj.Bids.Bid.Bidder.Location;
+                  country = obj.Bids.Bid.Bidder.Country;
+                  bidder_username = obj.Bids.Bid.Bidder.UserID;
+                  console.log('trying to insert ' + bidder_username)
+                  bidder_pwd = await bcrypt.hash(bidder_username.toString(), 8)
+
+                  console.log('Time - ' + time + 'amount ' + amount);
+
+                  try {
                     let [bidder, created_bidder] = await User.upsert({
                       username: bidder_username,
                       firstname: bidder_username,
@@ -177,75 +212,18 @@ router.get('/',(req, res, next) => {
         
                     if(bidder) {
                       console.log(bidder);
-                      // res.json({
-                      //   message : "User created",
-                      //   data: bidder
-                      // })
-                      //   .status(200);
-                    } else {
-                      res.status(400);
-                      throw new Error("Cannot create new User")
                     }
-    
                     console.log('Creating bid with item id: ' + itemId);
-    
                     // create new Bid
                     let newBid = await Bid.create({
                       itemId: itemId,
                       bidderId: bidder.id,
                       amount: parseFloat(amount.replace(/\$/,""))
                     });
-                    if(!newBid) {
-                      res.status(500);
-                      throw new Error('Error while creating Bid');
-                    }
-                  }
-                } else {
-                  time = obj.Bids.Bid.Time;
-                  amount = obj.Bids.Bid.Amount;
-                  location = obj.Bids.Bid.Bidder.Location;
-                  country = obj.Bids.Bid.Bidder.Country;
-                  bidder_username = obj.Bids.Bid.Bidder.UserID;
-                  console.log('trying to insert ' + bidder_username)
-                  bidder_pwd = await bcrypt.hash(bidder_username.toString(), 8)
-
-                  console.log('Time - ' + time + 'amount ' + amount);
-
-                  let [bidder, created_bidder] = await User.upsert({
-                    username: bidder_username,
-                    firstname: bidder_username,
-                    lastname: bidder_username,
-                    email: bidder_username + '@gmail.com',
-                    password: bidder_pwd,
-                    phoneNumber: 2100000000,
-                    country: country,
-                    afm: 111111,
-                    access: 'GRANTED'
-                  })
-      
-                  if(bidder) {
-                    console.log(bidder);
-                    // res.json({
-                    //   message : "User created",
-                    //   data: bidder
-                    // })
-                    //   .status(200);
-                  } else {
+                    
+                  } catch (error) {
                     res.status(400);
-                    throw new Error("Cannot create new User")
-                  }
-  
-                  console.log('Creating bid with item id: ' + itemId);
-  
-                  // create new Bid
-                  let newBid = await Bid.create({
-                    itemId: itemId,
-                    bidderId: bidder.id,
-                    amount: parseFloat(amount.replace(/\$/,""))
-                  });
-                  if(!newBid) {
-                    res.status(500);
-                    throw new Error('Error while creating Bid');
+                    throw new Error(error)
                   }
                 }
                 // console.log(amount)

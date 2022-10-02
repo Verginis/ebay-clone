@@ -278,11 +278,7 @@ class UserController {
       throw new Error("No items found");
     } 
 
-    // console.log(results);
-    // console.log(metadata)
-
     res.status(200).json(itemList);
-
   });
 
   downloadXML = asyncHandler( async(req,res,next) => { 

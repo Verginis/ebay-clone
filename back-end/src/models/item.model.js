@@ -30,10 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         buy_price: {
             type: DataTypes.FLOAT,
-            allowNull:true,
-            get() {
-                return this.getDataValue('buy_price');
-            },
+            allowNull:true
         },
         location: {
             type: DataTypes.STRING,
@@ -68,6 +65,10 @@ module.exports = (sequelize, DataTypes) => {
         runningAuction: {
             type: DataTypes.BOOLEAN,
             default: true,
+            allowNull: true
+        },
+        bidList: {
+            type: DataTypes.JSON,
             allowNull: true
         }
         

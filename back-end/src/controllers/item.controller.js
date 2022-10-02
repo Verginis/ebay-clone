@@ -9,7 +9,27 @@ const Item = db.item;
 const Category = db.category;
 const Bid = db.bid;
 
+// global array for bids
+var array = [];
 class ItemController {
+
+  setItemBids = (newBid, bidList) => {
+    if(bidList == null) {
+
+      array.push(newBid);
+      console.log(array)
+      
+      return array
+    }
+    // array.push(bidList);
+    array.push( newBid);
+
+    console.log('array ' + array)
+
+    // bidList = bidList + newBid;
+    return array;
+  }
+
   // used for search
   getPagination = (page, size) => {
     const limit = size ? +size : 3;
@@ -87,21 +107,6 @@ class ItemController {
         res.status(500);
         throw new Error("Item not found");
       }
-
-      // make a list of bids for every item
-      const bidList  = await db.sequelize.query('SELECT bidds.*, users.username, users.country FROM items,users, bidds WHERE bidds.itemId = items.id and bidds.bidderId = users.id', 
-      { type: db.sequelize.QueryTypes.SELECT }
-      );
-
-      if(!bidList) {
-        res.status(500);
-        throw new Error("Bid not found");
-      }
-
-      // make a list of categories for every item
-
-      itemList.push(bidList);
-      console.log(itemList);
 
       res.status(200).json(itemList);
     })
@@ -188,7 +193,8 @@ class ItemController {
       const result = await itemFound.update({
         current_bid: req.body.amount,
         nof_bids: itemFound.nof_bids + 1,
-        runningAuction: runningAuction
+        runningAuction: runningAuction,
+        bidList: this.setItemBids(newBid, itemFound.bidList)
       })
 
       if(!result) {
