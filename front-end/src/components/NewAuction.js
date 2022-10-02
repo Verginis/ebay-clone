@@ -127,8 +127,6 @@ const NewAuction = () => {
             return;
         }
 
-
-        
         //var categories =  ["BANANA", "APPLE", "apple 14"];
         var current_bid =  first_bid; // aut
         //var first_bid  =  1;

@@ -4,11 +4,19 @@ import '../styles/navbar.scss'
 import useAuth from "../hooks/useAuth";
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
+import { useState } from 'react'
+import axios from '../api/axios';
+
+const URL_JSON  = '/api/v1/admin/download/json';
+const URL_XML  = '/api/v1/admin/download/xml';
 
 const Navbar = () => {
   const { auth } = useAuth();
   const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState(false);
 
   
   const logout = async () => {
@@ -16,6 +24,66 @@ const Navbar = () => {
     // axios to /logout endpoint 
     setAuth({});
     navigate('/');
+  }
+
+  const downloadXMLHandler = async(e) => {
+    e.preventDefault();
+
+    try {
+       const response = await axios.get(URL_XML,
+      {
+        headers: { "Content-Type": "application/xml; charset=utf-8" },
+        withCredentials: true
+      });
+       console.log(response?.data);
+       const url = window.URL.createObjectURL(new Blob([response.data]));
+       const link = document.createElement('a');
+       link.href = url;
+       link.setAttribute('download', 'items.xml');
+       document.body.appendChild(link);
+       link.click();
+
+       document.body.removeChild(link);
+       URL.revokeObjectURL(url);
+   } catch (err) {
+       if (!err?.response) {
+           setErrMsg('No Server Response');
+       } else if (err.response?.status === 500) {
+           setErrMsg('No Auctions started');
+       } else {
+           setErrMsg('Registration Failed')
+       } 
+    }
+  }
+
+  const downloadJSONHandler = async(e) =>{
+    e.preventDefault();
+    try {
+       const response = await axios.get(URL_JSON,
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      });
+       console.log(response?.data);
+       let dt = JSON.stringify(response?.data, null, 4);
+       const url = window.URL.createObjectURL(new Blob([dt]))
+       const link = document.createElement('a');
+       link.href = url;
+       link.setAttribute('download', 'items.json');
+       document.body.appendChild(link);
+       link.click();
+
+       document.body.removeChild(link);
+       URL.revokeObjectURL(url);
+   } catch (err) {
+       if (!err?.response) {
+           setErrMsg('No Server Response');
+       } else if (err.response?.status === 500) {
+           setErrMsg('No Auctions started');
+       } else {
+           setErrMsg('Registration Failed')
+       } 
+    }
   }
 
   return (
@@ -37,8 +105,8 @@ const Navbar = () => {
                 <button onClick={logout} className='regbtn anim-btn'>Log Out</button>
               </div>
             :<div className='form-btns'>
-                <button className='logbtn'>Export XML</button>
-                <button className='logbtn'>Export JSON</button>
+                <button onClick={downloadXMLHandler} className='logbtn'>Export XML</button>
+                <button onClick={downloadJSONHandler} className='logbtn'>Export JSON</button>
                 <button onClick={logout} className='regbtn anim-btn'>Log Out</button>
               </div>
           
