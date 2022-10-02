@@ -1,0 +1,72 @@
+@use "variables" as v;
+
+
+.single-item-page{
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+
+    .single-item-page-wrapper{
+        width: 600px;
+        max-width: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .descr-par{
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .wrapper-cat{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .leaflet-container{
+            margin: 20px 0;
+        }
+
+        .wrapper-2{
+            display: flex;
+            width: 100%;
+            justify-content: space-around;
+
+            .btn-cont{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .offscreen{
+                    display: none;
+                  }
+            
+                  .instructions {
+                    font-size: 0.75rem;
+                    border-radius: 0.5rem;
+                    background: v.$grey;
+                    color: v.$green1;
+                    padding: 0.25rem;
+                    position: relative;
+                    transition: all 1s;
+                    animation: example 0.5s;
+                    
+                    
+                   // bottom: -10px;
+                }
+            
+
+                .anim-btn{
+                    background: darken($color: v.$red, $amount: 10%);
+                }
+            }
+            
+        }
+    }
+}
