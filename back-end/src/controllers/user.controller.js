@@ -301,7 +301,6 @@ class UserController {
 
     res.status(200).send(xml);
   });
-
 };
 
 module.exports = new UserController;
