@@ -1,28 +1,70 @@
 @use "variables" as v;
 
-.user-list{
+
+.users-cont{
     display: flex;
-    
-    li{
-        list-style: none;
-        width: 400px;
+    flex-direction: column-reverse;
+    padding: 20px;
 
-        button{
-            background: none;
-            border: none;
-
-            .valid {
+    @media (max-width: 1000px){
+        .cc{
+            display: none;
+        }
         
-                margin-left: 0.25rem;
-                path{
-                  color: v.$green2;
-                }
-            }
+    }
+
+    @media (max-width: 600px){
+        .ee{
+            display: none;
+        }
+        
+    }
+
+    @media (max-width: 400px){
+        .ll{
+            display: none;
+        }
+        
+    }
+
+    @media (max-width: 400px){
+        .ff{
+            display: none;
+        }
+        
+    }
+
+
+    .bold-up{
+        margin: 20px 0;
+        li{
+            font-weight: 700;
+        }
+    }
+    .user-list{
+        display: flex;
+        
+        li{
+            list-style: none;
+            width: 400px;
+    
+            button{
+                background: none;
+                border: none;
+    
+                .valid {
             
-            .invalid {
-                margin-left: 0.25rem;
-                path{
-                  color: v.$red;
+                    margin-left: 0.25rem;
+                    path{
+                      color: v.$green2;
+                    }
+                }
+                
+                .invalid {
+                    margin-left: 0.25rem;
+                    path{
+                      color: v.$red;
+                    }
                 }
             }
         }

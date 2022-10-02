@@ -80,26 +80,19 @@ const Users = () => {
         <h2>User List</h2>
         {users?.length
                 ? (
-                    <div>
-                        <ul className="user-list">
-                                <li>Username:</li>
-                                <li>First Name:</li>
-                                <li>Last Name:</li>
-                                <li>Email:</li>
-                                <li>Country:</li>
-                                <li>Access</li>
-                            </ul>
+                    <div className="users-cont">
+                        
                        {users.map(({id, username, firstname,lastname, email, country, access}) => {
                             return (
                             <ul key={id} className="user-list">
-                                <li>{username}</li>
-                                <li>{firstname}</li>
-                                <li>{lastname}</li>
-                                <li>{email}</li>
-                                <li>{country}</li>
+                                <li className="uu">{username}</li>
+                                <li className="ff">{firstname}</li>
+                                <li className="ll">{lastname}</li>
+                                <li className="ee">{email}</li>
+                                <li className="cc">{country}</li>
                                 {access === 'GRANTED'
-                                  ?<li>Accepted</li>
-                                  :<li>
+                                  ?<li className="aa">Accepted</li>
+                                  :<li className="aa">
                                       <button onClick={()=> giveAccess(id)} ><FontAwesomeIcon icon={faCheck} className='valid' /></button>
                                       <button onClick={()=> denyAccess(id)}><FontAwesomeIcon icon={faTimes} className='invalid' /></button>
                                     </li>
@@ -107,6 +100,14 @@ const Users = () => {
                             </ul>
                             );
                         })}
+                        <ul className="user-list bold-up">
+                                <li className="uu">Username:</li>
+                                <li className="ff">First Name:</li>
+                                <li className="ll">Last Name:</li>
+                                <li className="ee">Email:</li>
+                                <li className="cc">Country:</li>
+                                <li className="aa">Access</li>
+                          </ul>
                     </div>
                 ) : <p>No users to display</p>
             }
