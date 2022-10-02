@@ -41,17 +41,19 @@ const Items = () => {
     
       //   fetchItems();
       // }, []);
+      setPosts("");
       
       try {
         // console.log('yeaaah')
-         const response = await axios.post('/api/v1/search?'+options+'='+searchField,
+         const response = await axios.get('/api/v1/search?'+options+'='+searchField,
              {
                  headers: { 'Content-Type': 'application/json' },
                  withCredentials: true
              }
          );
          console.log("aaaaaaaaaa");
-         //console.log(response?.data);
+         console.log(response?.data);
+         setPosts(response.data);
          //console.log(response?.accessToken);
          //console.log(JSON.stringify(response))
          //setSuccess(true);

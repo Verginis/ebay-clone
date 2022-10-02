@@ -212,6 +212,8 @@ class ItemController {
         throw new Error('Error with itemId');
       }
 
+      console.log(req.params.itemId);
+
       const itemFound = await Item.findOne({
         where: {
           id: req.params.itemId
@@ -227,6 +229,10 @@ class ItemController {
       console.log(itemFound);
 
       const amount = itemFound.buy_price;
+      if(amount == null ) {
+        res.status(400)
+        throw new Error("Item cannot be bought!");
+      }
       const bidder = req.body.bidderId;
 
       if(!itemFound.runningAuction) {
@@ -248,7 +254,7 @@ class ItemController {
       const date = new Date(parsed); // Back to date object
       console.log(date);
 
-      const result = await Item.update({
+      const result = await itemFound.update({
         current_bid: amount,
         runningAuction: false,
         nof_bids: itemFound.nof_bids + 1,
