@@ -35,7 +35,7 @@ class SearchController {
       const data = await Item.findAndCountAll({
         where: { [Op.or]: 
             {
-                first_bid: { [Op.between]: [+0, +price] },
+                current_bid: { [Op.between]: [+0, +price] },
                 category : { [Op.substring]: category},
                 location: { [Op.substring]: location },
                 description: { [Op.substring]: text }
@@ -51,7 +51,7 @@ class SearchController {
       } 
 
       console.log(data);
-      res.status(200).send(data);      
+      res.status(200).json(data);      
     })
 };
 
