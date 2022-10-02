@@ -10,6 +10,8 @@ const Items = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [postsPerPage] = useState(20);
 
+    const [oldposts, setoldPosts] = useState([]);
+
 
     const [searchField, setSearchField] = useState("");
     const [options, setoptions] = useState("category");
@@ -19,6 +21,7 @@ const Items = () => {
         setLoading(true);
         const res = await axios.get('/api/v1/items');
         setPosts(res.data);
+        setoldPosts(res.data);
         console.log(res.data);
         setLoading(false);
       };
@@ -30,46 +33,27 @@ const Items = () => {
     const handleSearch = async () => {
       console.log(options, searchField);
 
-      // useEffect(() => {
-      //   const fetchItems = async () => {
-      //     setLoading(true);
-      //     const res = await axios.get('/api/v1/search?'+options+'='+searchField);
-      //     setPosts(res.data);
-      //     console.log(res.data);
-      //     setLoading(false);
-      //   };
-    
-      //   fetchItems();
-      // }, []);
       setPosts("");
+      console.log('NUMBER posts',posts);
       
       try {
-        // console.log('yeaaah')
-         const response = await axios.get('/api/v1/search?'+options+'='+searchField,
-             {
-                 headers: { 'Content-Type': 'application/json' },
-                 withCredentials: true
-             }
-         );
-         console.log("aaaaaaaaaa");
-         console.log(response?.data);
-         setPosts(response.data);
-         //console.log(response?.accessToken);
-         //console.log(JSON.stringify(response))
-         //setSuccess(true);
-         //clear state and controlled inputs
-         //need value attrib on inputs for this
-        //  setmake_bid('');
 
+        setLoading(true);
+        const res = await axios.get('/api/v1/search?'+options+'='+searchField);
+        setPosts(res.data);
+        
+        //console.log(res.data);
+        setLoading(false);
+        //  console.log("aaaaaaaaaa");
+        //  console.log(response?.data);
+        //  setPosts(response.data);
      } catch (err) {
-      console.log("eeeaaaaaaaaaa");
-        //  if (!err?.response) {
-        //      setErrMsg('No Server Response');
-        //  } else if (err.response?.status === 409) {
-        //      setErrMsg('Username Taken');
-        //  } else {
-        //      setErrMsg('Registration Failed')
-        //  }
+      console.log("error");
+
+     }
+
+     if(searchField==''){
+      setPosts(oldposts);
      }
     }
   
@@ -138,7 +122,7 @@ const Items = () => {
         <>        
                   <div>
                     <select onChange={(e) => setoptions(e.target.value)}>
-                      <option selected value="category">Categories</option>
+                      <option value="category">Categories</option>
                       <option value="price">Max Price</option>
                       <option value="location">Location</option>
                       <option value="text">Description</option>

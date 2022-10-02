@@ -32,7 +32,7 @@ class SearchController {
 
       const { limit, offset } = this.getPagination(page, size);
 
-      const data = await Item.findAndCountAll({
+      const data = await Item.findAll({
         where: { [Op.or]: 
             {
                 current_bid: { [Op.between]: [+0, +price] },
