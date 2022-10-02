@@ -53,8 +53,12 @@ const Signin = () => {
             if(role== 'Admin'){
                 navigate("/admin");
             }else{
+                if(access== 'GRANTED'){
+                    navigate("/products");
+                }else{
+                    navigate("/unauthorized");
+                }
                 
-                navigate("/products");
             }
         } catch (err) {
             if (!err?.response) {
