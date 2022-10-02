@@ -1,17 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const asyncHandler =  require('express-async-handler');
-const bodyParser = require('body-parser');
-// const User = require('../models/user.model');
-// var requireDir = require('require-dir');
 const db = require('../models');
-const { QueryTypes } = require('sequelize');
-
 const User = db.user;
-const Item = db.item;
-const js2xmlparser = require('js2xmlparser');
 var builder = require('xmlbuilder');
-// const {XMLParser} = require('fast-xml-parser');
 
 class UserController {
 

@@ -17,8 +17,8 @@ const Bid = db.bid;
 // const userController = require('../controllers/user.controller');
 
 
-router.get('/',asyncHandler ( async(req, res, next) => {
-    fs.readFile( '../items-1.xml', 'utf8', async function(err, data) {
+router.get('/',(req, res, next) => {
+    fs.readFile( '../items-1.xml', 'utf8', async (err, data) =>  {
         // convert XML to JSON
         if (err) throw err;
 
@@ -105,35 +105,39 @@ router.get('/',asyncHandler ( async(req, res, next) => {
               parseFloat(buy_price.replace(/\$/,""))
             }
 
-            let [newItem, created_item] = await Item.upsert({
-              id: itemId,
-              name: name,
-              category: category,
-              current_bid: parseFloat(current_bid.replace(/\$/,"")),
-              first_bid: parseFloat(first_bid.replace(/\$/,"")),
-              nof_bids: nof_bids,
-              buy_price: buy_price,
-              location: location,
-              latitude:  obj.Location.Latitude,
-              longitude: obj.Location.Longitude,
-              sellerId: user.id,
-              country: country,
-              ended: obj.Ends,
-              description: description,
-              runningAuction: true
-            })
+            try {
+              let [newItem, created_item] = await Item.upsert({
+                id: itemId,
+                name: name,
+                category: category,
+                current_bid: parseFloat(current_bid.replace(/\$/,"")),
+                first_bid: parseFloat(first_bid.replace(/\$/,"")),
+                nof_bids: nof_bids,
+                buy_price: buy_price,
+                location: location,
+                latitude:  obj.Location.Latitude,
+                longitude: obj.Location.Longitude,
+                sellerId: user.id,
+                country: country,
+                ended: obj.Ends,
+                description: description,
+                runningAuction: true
+              })
 
-            if(newItem) {
-              console.log('Item created' + newItem);
-              // res.json({
-              //   message : "Item created",
-              //   data: newItem
-              // })
-              //   .status(200);
-          } else {
-              res.status(400);
-              throw new Error("Cannot create new Item")
-          }
+              if(newItem) {
+                console.log('Item created' + newItem);
+                // res.json({
+                //   message : "Item created",
+                //   data: newItem
+                // })
+                //   .status(200);
+              } else {
+                res.status(400);
+                throw new Error("Cannot create new Item")
+              }
+            } catch(err) {
+              console.log(err);
+            }
 
           console.log(obj.Bids)
 
@@ -248,11 +252,10 @@ router.get('/',asyncHandler ( async(req, res, next) => {
               }
             }
           }
-          } 
-        res.status(200).send("everything done")
-                   
-     });
-}));
+        }
+        res.status(200).send("everything done")  
+    });
+});
 
 module.exports = router;
 
