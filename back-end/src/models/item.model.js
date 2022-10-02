@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE
         }, 
         ended: {
-            type: DataTypes.DATE
+            type: DataTypes.STRING
         }, 
         description: {
             type: DataTypes.STRING,

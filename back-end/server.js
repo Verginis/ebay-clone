@@ -14,6 +14,7 @@ const cors = require("cors");
 // ROUTES
 const userRoutes = require('./src/routes/user.route');
 const itemRoutes = require('./src/routes/item.route');
+const searchRoutes = require('./src/routes/search.route');
 const messageRoutes = require('./src/routes/message.route');
 const uploadRoutes = require('./src/routes/upload-data.route');
 
@@ -39,6 +40,7 @@ app.use(cors(corsOptions));
 
 app.use('/api/v1', userRoutes);
 app.use('/api/v1/items', itemRoutes);
+app.use('/api/v1/search', searchRoutes);
 app.use('/api/v1/messages', messageRoutes);
 app.use('/api/v1/upload', uploadRoutes);
 

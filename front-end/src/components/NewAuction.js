@@ -149,7 +149,7 @@ const NewAuction = () => {
         try {
            // console.log('yeaaah')
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ name, categories, first_bid, nof_bids, buy_price, location, latitude, longitude, sellerId, country, description,runningAuction, ended}),
+                { name, categories, first_bid, nof_bids, buy_price, location, latitude, longitude, sellerId, country, description,runningAuction, ended},
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true

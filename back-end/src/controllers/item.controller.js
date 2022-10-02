@@ -10,6 +10,21 @@ const Category = db.category;
 const Bid = db.bid;
 
 class ItemController {
+  // used for search
+  getPagination = (page, size) => {
+    const limit = size ? +size : 3;
+    const offset = page ? page * limit : 0;
+  
+    return { limit, offset };
+  };
+
+  getPagingData = (data, page, limit) => {
+    const { count: totalItems, rows: tutorials } = data;
+    const currentPage = page ? +page : 0;
+    const totalPages = Math.ceil(totalItems / limit);
+  
+    return { totalItems, tutorials, totalPages, currentPage };
+  };
     // create new user
     storeItem = asyncHandler( async(req,res,next) => {
         const userFound = await User.findOne({
@@ -32,7 +47,9 @@ class ItemController {
             categories.push(cat);
           }
 
-          console.log(categories)
+          console.log(req.body.categories);
+
+          // console.log(categories)
           const newItem = await Item.create({
             name: req.body.name,
             category: req.body.categories,
@@ -45,6 +62,7 @@ class ItemController {
             longitude: req.body.longitude,
             sellerId: req.body.sellerId,
             country: req.body.country,
+            ended: req.body.ended,
             description: req.body.description,
             runningAuction: true
             });
@@ -282,7 +300,6 @@ class ItemController {
       res.status(204).json({
         message: 'Item deleted successfully'
       });
-
     })
 };
 
